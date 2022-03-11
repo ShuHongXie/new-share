@@ -2,12 +2,12 @@
  * @Author: 谢树宏
  * @Date: 2022-03-09 14:13:13
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-10 16:04:46
+ * @LastEditTime: 2022-03-11 14:27:07
  * @FilePath: /new-share/pages/index.tsx
  */
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import WbImage from "@/components/common/Image";
 import homeStyle from "../styles/home.module.scss";
 import { Swiper, Toast } from "antd-mobile";
 import Tabbar from "@/components/modules/Tabbar/homeFooter";
@@ -36,6 +36,7 @@ const Home: NextPage = () => {
       </Head>
       <div className={homeStyle.home}>
         <Swiper>{items}</Swiper>
+        <WbImage src="21321321" width={200} height={200} />
         <Tabbar />
       </div>
     </div>

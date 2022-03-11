@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-10 14:21:32
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-10 14:46:14
+ * @LastEditTime: 2022-03-11 17:25:17
  * @FilePath: /new-share/server/index.js
  */
 const Koa = require("koa");
@@ -15,6 +15,8 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 const cache = require("./middleware/cache");
+
+console.log(app);
 
 app.prepare().then(() => {
   const server = new Koa();

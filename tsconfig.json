@@ -4,7 +4,7 @@
     "baseUrl": ".",
     // 路径别名
     "paths": {
-      "@/components/*": ["components/*"]
+      "@/*": ["*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
