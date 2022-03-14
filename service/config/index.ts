@@ -5,12 +5,21 @@
  * @LastEditTime: 2022-03-11 16:53:51
  * @FilePath: /new-share/service/config/index.ts
  */
-
-import axios from "axios";
 import Cookie from "js-cookie";
 import { TOKENID, WBIAOID, MALL_SAAS_TOKEN } from "@/config/constant";
-import { uuid } from "@/utils";
-const instance = axios.create();
+import { uuid, getCookieDomain } from "@/utils";
+import signUtils from "./sign";
+import axios, { AxiosInstance, AxiosRequestConfig, Canceler } from "axios";
+import { IncomingHttpHeaders } from "http";
+export const instance: AxiosInstance = axios.create();
+export interface RequstConfig extends AxiosRequestConfig {
+  req?: {
+    headers: IncomingHttpHeaders;
+  };
+}
+interface Source {
+  [key: string]: Canceler;
+}
 
 /**
  * axios 全局拦截器配置
@@ -34,12 +43,12 @@ const instance = axios.create();
  */
 let userTokenId: string = ""; // 用于记录登录用户的tokenId，发生变化则清除记录的请求
 let list: string[] = []; // 用于储存不支持重复请求的接口
-let sources = {}; // 用于储存不支持重复请求的接口的取消函数
+let sources: Source = {}; // 用于储存不支持重复请求的接口的取消函数
 
 // 添加请求拦截器
 instance.interceptors.request.use(
-  function (options) {
-    const tokenId = Cookie.get(MALL_SAAS_TOKEN) || Cookie.get(TOKENID);
+  (options: RequstConfig): RequstConfig => {
+    const tokenId = Cookie.get(MALL_SAAS_TOKEN) || Cookie.get(TOKENID) || "";
     const wbiaoid = Cookie.get(WBIAOID) || "";
     if (!wbiaoid) {
       Cookie.set(WBIAOID, uuid(), {
@@ -47,7 +56,7 @@ instance.interceptors.request.use(
         secure: true,
         maxAge: 365 * 60 * 24 * 365,
         domain: getCookieDomain({
-          host: process.server ? req.headers.host : location.host,
+          host: options.req ? options.req.headers.host : location.host,
         }).sndleveldomain,
       });
     }
@@ -61,10 +70,10 @@ instance.interceptors.request.use(
       options.url + JSON.stringify(options.params || options.data || {});
     // 接口是否可以重复请求，并清除headers中多余参数
     // 此处仅适用
-    if (options.headers.once) {
+    if (options.headers?.once) {
       // 如果接口未配置cancelToken，则主动配置一个，以页面的控制级别优先
       if (!options.cancelToken) {
-        options.cancelToken = new $axios.CancelToken((cancel) => {
+        options.cancelToken = new axios.CancelToken((cancel) => {
           sources[request] = cancel;
         });
       }
@@ -75,21 +84,21 @@ instance.interceptors.request.use(
           sources[request]({
             data: { info: { error: 400, message: "正在处理中，请稍后～" } },
             config: Object.assign({}, options),
-          });
+          } as any);
       } else {
         list.push(request);
       }
     }
     // gateway - 走网关的接口
-    if (options.headers.gateway) {
+    if (options.headers?.gateway) {
       if (tokenId) {
         options.headers["wb-token"] = tokenId;
       }
-      options = signUtils(options, { app });
+      options = signUtils(options);
     }
 
     // 在发送请求之前做些什么
-    return config;
+    return options;
   },
   function (error) {
     // 对请求错误做些什么
@@ -108,3 +117,5 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export default instance;
