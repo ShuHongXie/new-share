@@ -2,28 +2,31 @@
  * @Author: 谢树宏
  * @Date: 2022-03-11 16:44:07
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-11 16:53:51
+ * @LastEditTime: 2022-03-15 16:20:10
  * @FilePath: /new-share/service/config/index.ts
  */
 import Cookie from "js-cookie";
 import { TOKENID, WBIAOID, MALL_SAAS_TOKEN } from "@/config/constant";
+import config from "@/config";
 import { uuid, getCookieDomain } from "@/utils";
+import { Toast } from "antd-mobile";
 import signUtils from "./sign";
-import axios, { AxiosInstance, AxiosRequestConfig, Canceler } from "axios";
-import { IncomingHttpHeaders } from "http";
+import axios, { AxiosInstance } from "axios";
+import omit from "lodash.omit";
+import qs from "qs";
+
+import {
+  RequestConfig,
+  Source,
+  Msg,
+  Response,
+  ResponseConfigHeaders,
+} from "./index.d";
+
 export const instance: AxiosInstance = axios.create();
-export interface RequstConfig extends AxiosRequestConfig {
-  req?: {
-    headers: IncomingHttpHeaders;
-  };
-}
-interface Source {
-  [key: string]: Canceler;
-}
 
 /**
- * axios 全局拦截器配置
- * https://axios.nuxtjs.org/helpers
+ * axios 全局配置
  *
  * Request:
  * headers参数
@@ -47,7 +50,7 @@ let sources: Source = {}; // 用于储存不支持重复请求的接口的取消
 
 // 添加请求拦截器
 instance.interceptors.request.use(
-  (options: RequstConfig): RequstConfig => {
+  (options: RequestConfig): RequestConfig => {
     const tokenId = Cookie.get(MALL_SAAS_TOKEN) || Cookie.get(TOKENID) || "";
     const wbiaoid = Cookie.get(WBIAOID) || "";
     if (!wbiaoid) {
@@ -108,9 +111,86 @@ instance.interceptors.request.use(
 
 // 添加响应拦截器
 instance.interceptors.response.use(
-  function (response) {
+  (response: Response) => {
     // 对响应数据做点什么
-    return response;
+    const { info } = response.data || {};
+    const { headers, url, params, data, ctx } = response.config;
+    if (info && info.error) {
+      if (info.error === 1110) {
+        // token过期，则清除所有
+        userTokenId = "";
+        list = [];
+        sources = {};
+      } else if (headers?.once) {
+        const requestParams = params || data || {};
+        // 请求失败，则清除已经记录的请求
+        const request =
+          url?.split("?")[0] +
+          (typeof requestParams === "string"
+            ? requestParams
+            : JSON.stringify(
+                omit(requestParams, [
+                  "app",
+                  "deviceId",
+                  "os",
+                  "rcode",
+                  "sign",
+                  "time",
+                ]) || {}
+              ));
+        const index = list.findIndex((item) => item === request);
+        index !== -1 && list.splice(index, 1);
+      }
+      let MSG: Msg = {};
+      if (info.error > 400 && info.error <= 500) {
+        MSG = {
+          500: "服务器开小差～",
+          405: "缺少参数",
+          404: "没找到资源",
+          407: "签名无效",
+          401: "没有权限",
+          406: "签名过期,请重新登录",
+          408: "终端与认证方式不一致",
+        };
+      }
+      const message = MSG[info.error.toString()]
+        ? MSG[info.error.toString()]
+        : info.message;
+      /**
+       * 客户端渲染 - toast
+       * 服务端渲染 - 去到错误页面
+       *  */
+      // const { hideToast, selfHandleLogin } = response.config
+      //   .headers as ResponseConfigHeaders;
+      // process.client
+      //   ? !(selfHandleLogin || hideToast) && Toast.show({ content: message })
+      //   : error({
+      //       statusCode: info.error,
+      //       message: message,
+      //     });
+      // if (info.error !== 0 && selfHandleLogin && !isAPP) {
+      //   // 非app环境中，selfHandleLogin=true 页面自行处理需要登录的业务逻辑
+      //   return Promise.reject(info);
+      // }
+      // 回到登录页 - 401, 403, 406
+      if (
+        (!headers?.optionlLogin && [401, 403, 406].includes(info.error)) ||
+        (headers?.needLogin &&
+          info.error === 1110 &&
+          info.message === "缺少token必要参数")
+      ) {
+        // const redirectUrl = process.server
+        //   ? config.WECHAT_ORIGIN.mall['development'] + route.fullPath
+        //   : location.href;
+        // // const redirectUrl = location.href
+        // const _params = qs.stringify({ redirectUrl });
+        // ctx.redirect(`/login?${_params}`);
+      } else {
+        return Promise.reject((response.data || {}).data || info);
+      }
+    } else {
+      return Promise.resolve((response.data || {}).data);
+    }
   },
   function (error) {
     // 对响应错误做点什么

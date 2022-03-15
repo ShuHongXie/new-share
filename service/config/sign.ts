@@ -2,8 +2,8 @@
  * @Author: 谢树宏
  * @Date: 2021-05-27 10:33:56
  * @LastEditors: 谢树宏
- * @LastEditTime: 2021-06-25 10:55:45
- * @FilePath: /nuxt_share_mobile/utils/tool/gatewaySign.js
+ * @LastEditTime: 2022-03-15 16:20:34
+ * @FilePath: /new-share/service/config/sign.ts
  */
 import qs from "qs";
 import MD5 from "./md5";
@@ -14,9 +14,9 @@ import { sortObjectKey, uuid } from "@/utils";
 const secret =
   config.SECRET_KEY[process.env.NODE_ENV as "production" | "development"];
 
-import { RequstConfig } from ".";
+import { RequestConfig } from "./index.d";
 
-export default function sign(request: RequstConfig, {} = {}) {
+export default function sign(request: RequestConfig, {} = {}) {
   const unixDate = Math.floor(Date.now() / 1000);
   // 公共参数
   // eslint-disable-next-line no-prototype-builtins

@@ -2,10 +2,14 @@
  * @Author: 谢树宏
  * @Date: 2022-03-09 14:13:13
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-11 14:27:07
+ * @LastEditTime: 2022-03-15 17:42:16
  * @FilePath: /new-share/pages/index.tsx
  */
-import type { NextPage } from "next";
+import type {
+  NextPage,
+  GetServerSideProps,
+  GetServerSidePropsContext,
+} from "next";
 import Head from "next/head";
 import WbImage from "@/components/common/Image";
 import homeStyle from "../styles/home.module.scss";
@@ -41,6 +45,12 @@ const Home: NextPage = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  return { props: {} };
 };
 
 export default Home;

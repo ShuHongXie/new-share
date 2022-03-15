@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-11 14:52:02
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-11 16:50:44
+ * @LastEditTime: 2022-03-15 13:51:44
  * @FilePath: /new-share/utils/index.ts
  */
 import { sortObjectArg } from "./index.d";
@@ -40,7 +40,7 @@ export const getConstByEnv = (obj: any) => {
     return;
   }
   const isProduction = process.env.NODE_ENV === "production";
-  return isProduction ? obj.production : obj.development;
+  return isProduction ? obj.development : obj.development;
 };
 
 /**
