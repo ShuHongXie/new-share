@@ -6,15 +6,23 @@
  * @FilePath: /new-share/next.config.js
  */
 const withImages = require("next-images");
-const config = require("./config");
-console.log(config);
-
 const withTM = require("next-transpile-modules")(["antd-mobile"]);
+const config = require("./config/test.js");
+console.log(config);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withTM(
   withImages({
     reactStrictMode: true,
+    async rewrites() {
+      return [
+        {
+          source: "/rigPortal/:path*",
+          destination:
+            config.RIG_API[process.env.NODE_ENV] + "/rigPortal/:path*",
+        },
+      ];
+    },
     plugins: [],
     images: {
       domains: [
@@ -27,3 +35,4 @@ const nextConfig = withTM(
 );
 
 module.exports = nextConfig;
+/rigPortal/;

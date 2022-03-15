@@ -69,13 +69,21 @@ export default function sign(request: RequestConfig, {} = {}) {
    */
   if (request.method?.toUpperCase() === "GET") {
     const sortObject = Object.assign({}, commonData, needToken, request.params);
+    console.log(sortObject);
+
     const signObject = sortObjectKey(sortObject);
     const signParams = `${qs.stringify(signObject, { encode: true })}${secret}`;
     commonData.sign = MD5(signParams);
+    console.log({
+      ...commonData,
+      ...request.params,
+    });
+
     request.params = sortObjectKey({
       ...commonData,
       ...request.params,
     });
+    console.log(request.params);
   }
   return request;
 }

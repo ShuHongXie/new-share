@@ -7,8 +7,8 @@
  */
 
 import Image from "next/image";
-import { getConstByEnv } from "../../utils/index";
-import config from "../../config/index";
+import { getConstByEnv } from "@/utils/index";
+import config from "@/config/index";
 const ORIGIN = getConstByEnv(config.OSS);
 
 type Origin = {

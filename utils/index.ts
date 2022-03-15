@@ -75,4 +75,5 @@ export const sortObjectKey = (obj: sortObjectArg) => {
   for (const key of entryObject) {
     returnObject[key] = obj[key];
   }
+  return returnObject;
 };

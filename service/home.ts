@@ -6,12 +6,16 @@
  * @FilePath: /new-share/service/home.ts
  */
 import axios from "./config";
-
+import { RequestConfig } from "./config/index.d";
+import { GetServerSidePropsContext } from "next";
 
 // 首页数据
-export const getHomeDataNew = ({ params, ctx: }) =>
-  axios.get("/rigPortal/mall/manage/homeTemplate/templateV3", {
-    params,
-    headers: { gateway: true },
-    ctx,
-  });
+export const getHomeDataNew = (params: any, ctx?: GetServerSidePropsContext) =>
+  axios.get(
+    "http://localhost:3000/rigPortal/mall/manage/homeTemplate/templateV3",
+    {
+      params,
+      headers: { gateway: true },
+      ctx,
+    } as RequestConfig
+  );

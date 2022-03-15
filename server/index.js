@@ -8,9 +8,8 @@
 const Koa = require("koa");
 const next = require("next");
 const Router = require("@koa/router");
-const config = require("../config");
+const config = require("../config/test");
 // 接口反向代理
-const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
@@ -26,13 +25,16 @@ app.prepare().then(() => {
   const router = new Router();
 
   if (process.env.NODE_ENV === "production") {
-    server.use(
-      "/sharemapi/recycleapi/",
-      createProxyMiddleware({
-        target: config.API.recycle[process.env.NODE_ENV],
-        changeOrigin: true,
-      })
-    );
+    // server.use(
+    //   "/rigPortal/",
+    //   createProxyMiddleware({
+    //     target: config.RIG_API[process.env.NODE_ENV],
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       "^/rigPortal/": "/rigPortal/",
+    //     },
+    //   })
+    // );
   }
 
   router.all("(.*)", async (ctx) => {

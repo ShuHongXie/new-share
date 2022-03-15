@@ -13,12 +13,13 @@ import {
   AxiosResponseHeaders,
 } from "axios";
 import { IncomingHttpHeaders } from "http";
+import { GetServerSidePropsContext } from "next";
 
 export interface RequestConfig extends AxiosRequestConfig {
   req?: {
     headers: IncomingHttpHeaders;
   };
-  ctx?: any;
+  ctx?: GetServerSidePropsContext;
 }
 
 export interface Source {
