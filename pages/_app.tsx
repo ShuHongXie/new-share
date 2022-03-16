@@ -9,6 +9,14 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -21,7 +29,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         {/* <link rel="canonical" href="https://www.wbiao.cn/"></link> */}
       </Head>
-      <Component {...pageProps} />
+      <RecoilRoot>
+        <Component {...pageProps} />
+      </RecoilRoot>
     </>
   );
 }

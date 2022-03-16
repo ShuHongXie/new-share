@@ -46,3 +46,5 @@ export interface Response extends AxiosResponse {
 export interface Msg {
   [key: number]: string;
 }
+
+export type EnviormentVariable = "production" | "development" | "test";

@@ -18,6 +18,7 @@ import { Swiper, Toast } from "antd-mobile";
 import { getHomeDataNew } from "@/service/home";
 
 import homeStyle from "../styles/home.module.scss";
+import { useEffect } from "react";
 
 const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
 
@@ -35,7 +36,11 @@ const items = colors.map((color, index) => (
   </Swiper.Item>
 ));
 
-const Home: NextPage = () => {
+const Home: NextPage = (props) => {
+  useEffect(() => {
+    console.log(props);
+  }, [props]);
+
   return (
     <div>
       <Head>
@@ -59,9 +64,8 @@ export const getServerSideProps: GetServerSideProps = async (
     },
     context
   );
-  console.log(data);
 
-  return { props: {} };
+  return { props: { data } };
 };
 
 export default Home;

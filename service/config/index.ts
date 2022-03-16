@@ -21,9 +21,12 @@ import {
   Msg,
   Response,
   ResponseConfigHeaders,
+  EnviormentVariable,
 } from "./index.d";
 
-export const instance: AxiosInstance = axios.create();
+export const instance: AxiosInstance = axios.create({
+  baseURL: config.BASE_URL["development"],
+});
 
 /**
  * axios 全局配置
@@ -114,6 +117,8 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   (response: Response) => {
+    console.log(response);
+
     // 对响应数据做点什么
     const { info } = response.data || {};
     const { headers, url, params, data, ctx } = response.config;
@@ -191,7 +196,7 @@ instance.interceptors.response.use(
         return Promise.reject((response.data || {}).data || info);
       }
     } else {
-      return Promise.resolve((response.data || {}).data);
+      return Promise.resolve(response.data.data);
     }
   },
   function (error) {
