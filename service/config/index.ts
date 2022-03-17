@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-11 16:44:07
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-15 16:20:10
+ * @LastEditTime: 2022-03-17 17:54:43
  * @FilePath: /new-share/service/config/index.ts
  */
 import Cookie from "js-cookie";
@@ -26,6 +26,9 @@ import {
 
 export const instance: AxiosInstance = axios.create({
   baseURL: config.BASE_URL["development"],
+  paramsSerializer: function (params) {
+    return qs.stringify(params, { arrayFormat: "brackets" });
+  },
 });
 
 /**
@@ -54,7 +57,7 @@ let sources: Source = {}; // 用于储存不支持重复请求的接口的取消
 // 添加请求拦截器
 instance.interceptors.request.use(
   (options: RequestConfig): RequestConfig => {
-    // console.log(options);
+    console.log(options, options.baseURL, options.url);
 
     const tokenId = Cookie.get(MALL_SAAS_TOKEN) || Cookie.get(TOKENID) || "";
     const wbiaoid = Cookie.get(WBIAOID) || "";
@@ -117,7 +120,7 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
   (response: Response) => {
-    console.log(response);
+    // console.log(response);
 
     // 对响应数据做点什么
     const { info } = response.data || {};

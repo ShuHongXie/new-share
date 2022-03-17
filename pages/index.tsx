@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-09 14:13:13
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-15 17:42:16
+ * @LastEditTime: 2022-03-17 17:54:55
  * @FilePath: /new-share/pages/index.tsx
  */
 import type {
@@ -38,7 +38,7 @@ const items = colors.map((color, index) => (
 
 const Home: NextPage = (props) => {
   useEffect(() => {
-    console.log(props);
+    // console.log(props);
   }, [props]);
 
   return (

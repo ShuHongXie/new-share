@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2021-05-27 10:33:56
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-15 16:20:34
+ * @LastEditTime: 2022-03-17 17:36:36
  * @FilePath: /new-share/service/config/sign.ts
  */
 import qs from "qs";
@@ -53,12 +53,10 @@ export default function sign(request: RequestConfig, {} = {}) {
       body: JSON.stringify(request.data),
     });
     const signObject = sortObjectKey(sortObject);
-    console.log(signObject);
     const signParams = `${qs.stringify(signObject, {
       encode: false,
     })}${secret}`;
     commonData.sign = MD5(signParams);
-    console.log(commonData);
     request.url = request.url + "?" + qs.stringify(commonData);
   }
   /**
@@ -69,21 +67,14 @@ export default function sign(request: RequestConfig, {} = {}) {
    */
   if (request.method?.toUpperCase() === "GET") {
     const sortObject = Object.assign({}, commonData, needToken, request.params);
-    console.log(sortObject);
-
     const signObject = sortObjectKey(sortObject);
     const signParams = `${qs.stringify(signObject, { encode: true })}${secret}`;
     commonData.sign = MD5(signParams);
-    console.log({
-      ...commonData,
-      ...request.params,
-    });
 
     request.params = sortObjectKey({
       ...commonData,
       ...request.params,
     });
-    console.log(request.params);
   }
   return request;
 }

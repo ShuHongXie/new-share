@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-10 14:21:32
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-15 16:54:20
+ * @LastEditTime: 2022-03-17 17:47:20
  * @FilePath: /new-share/server/index.js
  */
 const Koa = require("koa");
@@ -23,19 +23,6 @@ console.log(app, "---");
 app.prepare().then(() => {
   const server = new Koa();
   const router = new Router();
-
-  if (process.env.NODE_ENV === "production") {
-    // server.use(
-    //   "/rigPortal/",
-    //   createProxyMiddleware({
-    //     target: config.RIG_API[process.env.NODE_ENV],
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       "^/rigPortal/": "/rigPortal/",
-    //     },
-    //   })
-    // );
-  }
 
   router.all("(.*)", async (ctx) => {
     await handle(ctx.req, ctx.res);
