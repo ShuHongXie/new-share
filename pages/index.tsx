@@ -38,7 +38,7 @@ const items = colors.map((color, index) => (
 
 const Home: NextPage = (props) => {
   useEffect(() => {
-    // console.log(props);
+    console.log(props);
   }, [props]);
 
   return (
