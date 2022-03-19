@@ -22,7 +22,7 @@ import {
   Response,
   ResponseConfigHeaders,
   EnviormentVariable,
-} from "./index.d";
+} from "@/entity/service/index.d";
 
 export const instance: AxiosInstance = axios.create({
   baseURL: config.BASE_URL["development"],
@@ -57,7 +57,7 @@ let sources: Source = {}; // 用于储存不支持重复请求的接口的取消
 // 添加请求拦截器
 instance.interceptors.request.use(
   (options: RequestConfig): RequestConfig => {
-    console.log(options, options.baseURL, options.url);
+    console.log(options.baseURL, options.url);
 
     const tokenId = Cookie.get(MALL_SAAS_TOKEN) || Cookie.get(TOKENID) || "";
     const wbiaoid = Cookie.get(WBIAOID) || "";
@@ -119,7 +119,7 @@ instance.interceptors.request.use(
 
 // 添加响应拦截器
 instance.interceptors.response.use(
-  (response: Response) => {
+  (response: Response): any => {
     // console.log(response);
 
     // 对响应数据做点什么
@@ -163,9 +163,7 @@ instance.interceptors.response.use(
           408: "终端与认证方式不一致",
         };
       }
-      const message = MSG[info.error.toString()]
-        ? MSG[info.error.toString()]
-        : info.message;
+      const message = MSG[info.error] ? MSG[info.error] : info.message;
       /**
        * 客户端渲染 - toast
        * 服务端渲染 - 去到错误页面
@@ -196,7 +194,7 @@ instance.interceptors.response.use(
         // const _params = qs.stringify({ redirectUrl });
         // ctx.redirect(`/login?${_params}`);
       } else {
-        return Promise.reject((response.data || {}).data || info);
+        return Promise.reject(response.data?.data || info);
       }
     } else {
       return Promise.resolve(response.data.data);

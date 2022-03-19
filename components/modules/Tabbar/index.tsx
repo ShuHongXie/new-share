@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-03-11 14:24:51
  * @FilePath: /new-share/components/modules/Tabbar/homeFooter.tsx
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge, TabBar } from "antd-mobile";
 import {
   AppOutline,
@@ -15,8 +15,25 @@ import {
   UserOutline,
 } from "antd-mobile-icons";
 import style from "./homeFooter.module.scss";
+import { getSwitchTabbar } from "@/service/common";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { tabbarMenu } from "@/store/atom/common";
 
-const tabbar = () => {
+const TabbarItem = () => {};
+
+const Tabbar = () => {
+  console.log("开始渲染");
+  const setTabbarMenu = useSetRecoilState(tabbarMenu);
+  const menu = useRecoilValue(tabbarMenu);
+  useEffect(() => {
+    (async () => {
+      const data = await getSwitchTabbar({
+        configType: 12,
+      });
+      setTabbarMenu(() => data);
+      console.log(data);
+    })();
+  }, [setTabbarMenu]);
   const tabs = [
     {
       key: "home",
@@ -54,4 +71,4 @@ const tabbar = () => {
   );
 };
 
-export default tabbar;
+export default Tabbar;

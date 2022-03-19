@@ -14,7 +14,7 @@ import { sortObjectKey, uuid } from "@/utils";
 const secret =
   config.SECRET_KEY[process.env.NODE_ENV as "production" | "development"];
 
-import { RequestConfig } from "./index.d";
+import { RequestConfig } from "@/entity/service/index.d";
 
 export default function sign(request: RequestConfig, {} = {}) {
   const unixDate = Math.floor(Date.now() / 1000);

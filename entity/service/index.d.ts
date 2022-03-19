@@ -41,6 +41,7 @@ export interface ResponseConfig extends RequestConfig {
 
 export interface Response extends AxiosResponse {
   config: ResponseConfig;
+  data: ReturnData;
 }
 
 export interface Msg {
@@ -48,3 +49,18 @@ export interface Msg {
 }
 
 export type EnviormentVariable = "production" | "development" | "test";
+
+export interface Info {
+  elapsed?: number;
+  rpcElapsed?: number;
+  error: number;
+  message?: string;
+  detailMessage?: null;
+  traceId?: string;
+}
+
+export interface ReturnData<T> {
+  info?: Info;
+  rpcInfo?: null;
+  data?: T;
+}

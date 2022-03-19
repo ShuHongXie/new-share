@@ -9,25 +9,9 @@
 import Image from "next/image";
 import { getConstByEnv } from "@/utils/index";
 import config from "@/config/index";
+import { ImageParam, Origin } from "@/entity/components/image.d";
 const ORIGIN = getConstByEnv(config.OSS);
 
-type Origin = {
-  aliyuncs: string;
-  static: string;
-  hide: string;
-};
-
-type ImageParam = {
-  src: string;
-  width: number;
-  className?: string;
-  watermark?: string;
-  type?: string;
-  parameter?: string;
-  originType?: string;
-  quality?: number;
-  height?: number;
-};
 // 使用的源
 const ORIGINS: Origin = {
   aliyuncs: ORIGIN,

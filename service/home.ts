@@ -6,7 +6,7 @@
  * @FilePath: /new-share/service/home.ts
  */
 import axios from "./config";
-import { RequestConfig } from "./config/index.d";
+import { RequestConfig } from "@/entity/service/index.d";
 import { GetServerSidePropsContext } from "next";
 
 // 首页数据
