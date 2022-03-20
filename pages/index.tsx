@@ -13,7 +13,7 @@ import type {
 import Head from "next/head";
 import WbImage from "@/components/common/Image";
 
-import Tabbar from "@/components/modules/Tabbar/homeFooter";
+import Tabbar from "@/components/modules/Tabbar";
 import { Swiper, Toast } from "antd-mobile";
 import { getHomeDataNew } from "@/service/home";
 

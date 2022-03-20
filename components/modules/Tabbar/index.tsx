@@ -14,7 +14,7 @@ import {
   UnorderedListOutline,
   UserOutline,
 } from "antd-mobile-icons";
-import style from "./homeFooter.module.scss";
+import style from "./index.module.scss";
 import { getSwitchTabbar } from "@/service/common";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tabbarMenu } from "@/store/atom/common";
@@ -63,11 +63,9 @@ const Tabbar = () => {
 
   // const [activeKey, setActiveKey] = useState("todo");
   return (
-    <TabBar className={style.tabbar}>
-      {tabs.map((item) => (
-        <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
-      ))}
-    </TabBar>
+    <div className={style.tabbar}>
+      <div className={style.tabbarItem}></div>
+    </div>
   );
 };
 
