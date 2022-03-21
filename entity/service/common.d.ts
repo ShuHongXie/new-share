@@ -1,4 +1,4 @@
-export interface Menu extends Array {
+export interface Menu {
   [index?: number]: MenuItem;
 }
 export interface MenuItem {

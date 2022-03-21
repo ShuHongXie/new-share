@@ -5,7 +5,7 @@ export type Origin = {
 };
 
 export interface ImageParam {
-  src: string;
+  src?: string;
   width: number;
   className?: string;
   watermark?: string;
