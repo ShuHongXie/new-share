@@ -14,7 +14,8 @@
 
 # production
 /build
-/config
+/config/index.ts
+/config/test.ts
 
 # misc
 .DS_Store

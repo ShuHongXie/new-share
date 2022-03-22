@@ -7,7 +7,7 @@
  */
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
-class MyDocument extends Document {
+class WbDocument extends Document {
   // static async getInitialProps(ctx) {
   //   const initialProps = await Document.getInitialProps(ctx);
   //   return { ...initialProps };
@@ -16,7 +16,12 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head />
+        <Head>
+          <link
+            rel="stylesheet"
+            href="//at.alicdn.com/t/font_1183097_xn1aa1cws5.css"
+          ></link>
+        </Head>
         <body>
           <Main />
           <NextScript />
@@ -26,4 +31,4 @@ class MyDocument extends Document {
   }
 }
 
-export default MyDocument;
+export default WbDocument;

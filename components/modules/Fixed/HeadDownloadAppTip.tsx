@@ -6,20 +6,31 @@
  * @FilePath: /new-share/components/modules/Fixed/HeadDownloadAppTip.tsx
  */
 
-import { useState } from "react";
+import { useState, FC } from "react";
 import style from "./HeadDownloadAppTip.module.scss";
 import WbImage from "@/components/common/Image";
 import WbIcon from "@/components/common/Icon";
 
-// 顶部下载App提示
-const HeadDownloadAppTip = ({ topImageUrl, handleEvokeApp }) => {
+type HeadDownloadAppTipProp = {
+  topImageUrl: string;
+  handleEvokeApp: (direction: string) => void;
+};
+
+// 顶部下载App提示组件
+const HeadDownloadAppTip: FC<HeadDownloadAppTipProp> = ({
+  topImageUrl,
+  handleEvokeApp,
+}) => {
   const [isFixedTopImage, setIsFixedTopImage] = useState();
 
   const handleCloseEvokeTop = () => {};
 
   return (
     <div className={isFixedTopImage ? style.tipFixedTop : style.tipTop}>
-      <WbImage src={topImageUrl} onClick={handleEvokeApp("top")}></WbImage>
+      <WbImage
+        src={topImageUrl}
+        onClick={() => handleEvokeApp("top")}
+      ></WbImage>
       <WbIcon
         onClick={handleCloseEvokeTop}
         icon="icon-btn_close"
