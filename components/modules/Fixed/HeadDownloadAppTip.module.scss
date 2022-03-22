@@ -1,0 +1,27 @@
+.tip {
+  &FixedTop {
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    .closeIcon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 20px;
+      color: #aaa;
+      z-index: 100;
+    }
+  }
+  &Top {
+    position: relative;
+    background-color: red;
+    .closeIcon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 20px;
+      color: #aaa;
+      z-index: 100;
+    }
+  }
+}

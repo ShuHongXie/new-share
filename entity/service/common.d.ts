@@ -1,4 +1,12 @@
+/*
+ * @Author: 谢树宏
+ * @Date: 2022-03-22 09:10:35
+ * @LastEditors: 谢树宏
+ * @LastEditTime: 2022-03-22 11:35:12
+ * @FilePath: /new-share/entity/service/common.d.ts
+ */
 export interface Menu {
+  [x: string]: any;
   [index?: number]: MenuItem;
 }
 export interface MenuItem {

@@ -2,20 +2,15 @@
  * @Author: 谢树宏
  * @Date: 2022-03-09 14:13:13
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-09 17:49:59
+ * @LastEditTime: 2022-03-22 14:57:11
  * @FilePath: /new-share/pages/_app.tsx
  */
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import Layout from "@/components/modules/Layout";
 
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import { RecoilRoot } from "recoil";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -27,10 +22,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="viewport"
           content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
         />
-        {/* <link rel="canonical" href="https://www.wbiao.cn/"></link> */}
+        <link
+          rel="stylesheet"
+          href="//at.alicdn.com/t/font_1183097_xn1aa1cws5.css"
+        ></link>
       </Head>
       <RecoilRoot>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </RecoilRoot>
     </>
   );

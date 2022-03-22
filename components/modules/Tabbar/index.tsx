@@ -2,11 +2,10 @@
  * @Author: 谢树宏
  * @Date: 2022-03-10 15:49:29
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-11 14:24:51
- * @FilePath: /new-share/components/modules/Tabbar/homeFooter.tsx
+ * @LastEditTime: 2022-03-22 14:17:05
+ * @FilePath: /new-share/components/modules/Tabbar/index.tsx
  */
 import { useEffect, useState } from "react";
-import { Badge, TabBar } from "antd-mobile";
 import WbImage from "@/components/common/Image";
 import style from "./index.module.scss";
 import { getSwitchTabbar } from "@/service/common";
@@ -14,8 +13,6 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tabbarMenu } from "@/store/atom/common";
 
 import { MenuItem } from "@/entity/service/common";
-
-const TabbarItem = () => {};
 
 const Tabbar = () => {
   console.log("开始渲染");
