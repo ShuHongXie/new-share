@@ -1,6 +1,7 @@
 export interface evokeParam {
   path?: string;
   evoke?: Evoke;
+  isFixedTopImage?: boolean;
 }
 
 export interface Evoke {

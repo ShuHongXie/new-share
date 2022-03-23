@@ -30,14 +30,14 @@ export interface MenuItem {
 }
 
 export interface EvokeData {
-  creator?: string;
-  createTime?: number;
-  domain?: string;
-  configDesc?: null;
-  id?: number;
-  type?: number;
-  class?: string;
-  topImageUrl?: string;
-  fixedImageUrl?: string;
-  status?: number;
+  creator: string;
+  createTime: number;
+  domain: string;
+  configDesc: null;
+  id: number;
+  type: number;
+  class: string;
+  topImageUrl: string;
+  fixedImageUrl: string;
+  status: number;
 }

@@ -14,6 +14,11 @@ export default function generateEvokeData() {
     return null;
   }
   const path = location.pathname;
+  console.log(
+    location.pathname,
+    /(\/|\/oneAuction|\/identification)?$/.test(path)
+  );
+
   const routes = {
     [(!!/(\/|\/oneAuction|\/identification)?$/.test(path)).toString()]: {
       path: "wbshareHome",
@@ -95,5 +100,7 @@ export default function generateEvokeData() {
       download: true,
     },
   };
+  console.log(routes);
+
   return routes.true;
 }

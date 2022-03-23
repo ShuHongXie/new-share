@@ -77,6 +77,8 @@ const WbImage = ({
       alt=""
       width={width}
       height={height}
+      layout={!width || !height ? "fill" : "intrinsic"}
+      objectFit="cover"
       onClick={imageClick}
     />
   );

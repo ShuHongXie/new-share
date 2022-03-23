@@ -13,18 +13,18 @@ import WbIcon from "@/components/common/Icon";
 
 type HeadDownloadAppTipProp = {
   topImageUrl: string;
+  isFixedTopImage: boolean;
   handleEvokeApp: (direction: string) => void;
+  handleCloseEvokeTop: () => void;
 };
 
 // 顶部下载App提示组件
 const HeadDownloadAppTip: FC<HeadDownloadAppTipProp> = ({
+  isFixedTopImage,
   topImageUrl,
   handleEvokeApp,
+  handleCloseEvokeTop,
 }) => {
-  const [isFixedTopImage, setIsFixedTopImage] = useState();
-
-  const handleCloseEvokeTop = () => {};
-
   return (
     <div className={isFixedTopImage ? style.tipFixedTop : style.tipTop}>
       <WbImage

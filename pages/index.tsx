@@ -48,7 +48,7 @@ const Home: NextPage = (props) => {
       </Head>
       <div className={homeStyle.home}>
         <Swiper>{items}</Swiper>
-        <WbImage src="21321321" width={200} height={200} />
+        {/* <WbImage src="21321321" width={200} height={200} /> */}
         <Tabbar active="首页" />
       </div>
     </div>
