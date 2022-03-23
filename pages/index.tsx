@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-09 14:13:13
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-17 17:54:55
+ * @LastEditTime: 2022-03-23 15:02:21
  * @FilePath: /new-share/pages/index.tsx
  */
 import type {
@@ -49,7 +49,7 @@ const Home: NextPage = (props) => {
       <div className={homeStyle.home}>
         <Swiper>{items}</Swiper>
         <WbImage src="21321321" width={200} height={200} />
-        <Tabbar />
+        <Tabbar active="首页" />
       </div>
     </div>
   );

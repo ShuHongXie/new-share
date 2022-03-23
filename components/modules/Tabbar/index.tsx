@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-10 15:49:29
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-22 14:17:05
+ * @LastEditTime: 2022-03-23 15:01:19
  * @FilePath: /new-share/components/modules/Tabbar/index.tsx
  */
 import { useEffect, useState } from "react";
@@ -13,8 +13,11 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tabbarMenu } from "@/store/atom/common";
 
 import { MenuItem } from "@/entity/service/common";
+type TabbarProps = {
+  active: string;
+};
 
-const Tabbar = () => {
+const Tabbar: React.FC<TabbarProps> = ({ active }) => {
   console.log("开始渲染");
   const setTabbarMenu = useSetRecoilState(tabbarMenu);
   const menu = useRecoilValue(tabbarMenu);
@@ -41,7 +44,7 @@ const Tabbar = () => {
             }}
           >
             <WbImage
-              src={item.imageUrl}
+              src={active === item.detail ? item.imageUrl : item.noImageUrl}
               width={(item.imageWidth as number) / 2}
               height={(item.imageHeight as number) / 2}
             />
