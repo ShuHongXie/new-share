@@ -3,6 +3,7 @@
     position: sticky;
     top: 0;
     z-index: 99;
+    width: 100%;
     .closeIcon {
       position: absolute;
       top: 0;
@@ -13,6 +14,8 @@
     }
   }
   &Top {
+    width: 100%;
+    height: max-content;
     position: relative;
     background-color: red;
     .closeIcon {

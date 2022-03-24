@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-10 16:22:40
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-22 17:11:09
+ * @LastEditTime: 2022-03-24 18:00:17
  * @FilePath: /new-share/components/common/Image.tsx
  */
 
@@ -10,6 +10,8 @@ import Image from "next/image";
 import { getConstByEnv } from "@/utils/index";
 import config from "@/config/index";
 const ORIGIN = getConstByEnv(config.OSS);
+
+import style from "./Image.module.scss";
 
 export type Origin = {
   aliyuncs: string;
@@ -72,14 +74,14 @@ const WbImage = ({
 
   return (
     <Image
-      className={`wb-image ${className}`}
+      className={[style.wbImage, className].join(" ")}
       src={imgUrl}
       alt=""
-      width={width}
-      height={height}
-      layout={!width || !height ? "fill" : "intrinsic"}
-      objectFit="cover"
+      width={width || "100%"}
+      height={height || "100%"}
+      layout={!width ? "fill" : "intrinsic"}
       onClick={imageClick}
+      objectFit="contain"
     />
   );
 };

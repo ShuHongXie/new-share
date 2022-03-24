@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-22 14:10:18
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-22 17:06:37
+ * @LastEditTime: 2022-03-24 17:31:34
  * @FilePath: /new-share/components/modules/Fixed/HeadDownloadAppTip.tsx
  */
 
@@ -31,11 +31,11 @@ const HeadDownloadAppTip: FC<HeadDownloadAppTipProp> = ({
         src={topImageUrl}
         onClick={() => handleEvokeApp("top")}
       ></WbImage>
-      <WbIcon
+      {/* <WbIcon
         onClick={handleCloseEvokeTop}
         icon="icon-btn_close"
         customClass={[style.closeIcon].join(" ")}
-      ></WbIcon>
+      ></WbIcon> */}
     </div>
   );
 };

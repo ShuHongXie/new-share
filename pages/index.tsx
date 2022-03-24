@@ -2,7 +2,7 @@
  * @Author: 谢树宏
  * @Date: 2022-03-09 14:13:13
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-23 15:02:21
+ * @LastEditTime: 2022-03-24 17:22:33
  * @FilePath: /new-share/pages/index.tsx
  */
 import type {
@@ -47,7 +47,7 @@ const Home: NextPage = (props) => {
         <title>万表二手表</title>
       </Head>
       <div className={homeStyle.home}>
-        <Swiper>{items}</Swiper>
+        {/* <Swiper>{items}</Swiper> */}
         {/* <WbImage src="21321321" width={200} height={200} /> */}
         <Tabbar active="首页" />
       </div>
