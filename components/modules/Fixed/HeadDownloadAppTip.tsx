@@ -30,12 +30,13 @@ const HeadDownloadAppTip: FC<HeadDownloadAppTipProp> = ({
       <WbImage
         src={topImageUrl}
         onClick={() => handleEvokeApp("top")}
+        className={style.child}
       ></WbImage>
-      {/* <WbIcon
+      <WbIcon
         onClick={handleCloseEvokeTop}
         icon="icon-btn_close"
         customClass={[style.closeIcon].join(" ")}
-      ></WbIcon> */}
+      ></WbIcon>
     </div>
   );
 };

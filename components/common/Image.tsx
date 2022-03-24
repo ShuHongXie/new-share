@@ -77,11 +77,10 @@ const WbImage = ({
       className={[style.wbImage, className].join(" ")}
       src={imgUrl}
       alt=""
-      width={width || "100%"}
-      height={height || "100%"}
+      width={width}
+      height={height}
       layout={!width ? "fill" : "intrinsic"}
       onClick={imageClick}
-      objectFit="contain"
     />
   );
 };

@@ -1,10 +1,12 @@
-/*
- * @Author: 谢树宏
- * @Date: 2022-03-10 16:22:54
- * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-24 17:49:46
- * @FilePath: /new-share/components/common/Image.module.scss
- */
 .wbImage {
   width: 100% !important;
+  height: auto !important;
+  min-width: inherit !important;
+  max-width: inherit !important;
+  min-height: inherit !important;
+  max-height: inherit !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  margin: 0 !important;
 }

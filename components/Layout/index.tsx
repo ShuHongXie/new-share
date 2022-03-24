@@ -7,6 +7,7 @@
  */
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import HeadDownloadAppTip from "../modules/Fixed/HeadDownloadAppTip";
+import FooterOpenAppTip from "../modules/Fixed/FooterOpenAppTip";
 import { getCanEvoke } from "@/service/common";
 import generateEvokeData from "@/config/evokeRoute";
 
@@ -16,8 +17,8 @@ import { EvokeData } from "@/entity/service/common.d";
 export default function Layout({ children }: { children: ReactNode }) {
   const [canEvoke, setCanEvoke] = useState(false);
   const [evokeData, setEvokeData] = useState<evokeParam | null>({});
-  const [topImageUrl, setTopImageUrl] = useState("");
-  const [fixedImageUrl, setFixedImageUrl] = useState("");
+  const [topImageUrl, setTopImageUrl] = useState(""); // 顶部唤起图片
+  const [fixedImageUrl, setFixedImageUrl] = useState(""); // 固定唤起图片
   const [isFixedTopImage, setiIsFixedTopImage] = useState(false);
   const [showTop, setShowTop] = useState(true);
 
@@ -82,6 +83,14 @@ export default function Layout({ children }: { children: ReactNode }) {
         ""
       )}
       <main>{children}</main>
+      {canEvoke && fixedImageUrl ? (
+        <FooterOpenAppTip
+          fixedImageUrl={fixedImageUrl}
+          handleEvokeApp={handleEvokeApp}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 }

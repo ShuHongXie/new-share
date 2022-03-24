@@ -1,0 +1,11 @@
+.fixed {
+  position: fixed;
+  overflow: hidden;
+  z-index: 2;
+  bottom: 60px;
+  bottom: calc(env(safe-area-inset-bottom) + 60px);
+  width: 60%;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
