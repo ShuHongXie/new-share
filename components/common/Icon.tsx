@@ -13,16 +13,32 @@ export type WbIconProp = {
   styles?: {
     [styleName: string]: string;
   };
-  onClick: (e: React.MouseEvent<HTMLElement>) => void;
+  color?: string;
+  size?: number | string;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 // 通用icon组件
-const WbIcon: FC<WbIconProp> = ({ icon, customClass, styles, onClick }) => {
+const WbIcon: FC<WbIconProp> = ({
+  icon,
+  customClass,
+  styles,
+  size = 12,
+  color = "#000",
+  onClick,
+}) => {
+  size = size + "px";
+  styles = {
+    color,
+    fontSize: /[a-z]+/.test(size) ? size : `${size}px`,
+    ...styles,
+  };
   // icon点击
   const iconClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    onClick(e);
+    onClick && onClick(e);
   };
+
   return (
     <i
       className={`iconfont ${icon} ${customClass}`}

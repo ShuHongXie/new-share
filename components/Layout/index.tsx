@@ -2,15 +2,14 @@
  * @Author: 谢树宏
  * @Date: 2022-03-22 14:00:03
  * @LastEditors: 谢树宏
- * @LastEditTime: 2022-03-22 14:46:55
- * @FilePath: /new-share/components/modules/Layout/index.tsx
+ * @LastEditTime: 2022-03-25 10:26:34
+ * @FilePath: /new-share/components/Layout/index.tsx
  */
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import HeadDownloadAppTip from "../modules/Fixed/HeadDownloadAppTip";
 import FooterOpenAppTip from "../modules/Fixed/FooterOpenAppTip";
 import { getCanEvoke } from "@/service/common";
 import generateEvokeData from "@/config/evokeRoute";
-
 import { evokeParam } from "@/entity/config/evokeRoute";
 import { EvokeData } from "@/entity/service/common.d";
 
@@ -40,30 +39,30 @@ export default function Layout({ children }: { children: ReactNode }) {
     })();
   }, []);
   // 初始化
-  const init = async () => {
-    const initEvokeData = generateEvokeData();
-    console.log("??", initEvokeData, !initEvokeData);
+  // const init = async () => {
+  //   const initEvokeData = generateEvokeData();
+  //   console.log("??", initEvokeData, !initEvokeData);
 
-    if (!initEvokeData) {
-      setCanEvoke(false);
-      return;
-    }
-    console.log("--准备更新");
+  //   if (!initEvokeData) {
+  //     setCanEvoke(false);
+  //     return;
+  //   }
+  //   console.log("--准备更新");
 
-    setEvokeData({
-      ...evokeData,
-      ...initEvokeData,
-    });
-    console.log("--", evokeData);
-    const res = await getCanEvoke({
-      domain: evokeData?.path,
-    });
-    const { topImageUrl, fixedImageUrl, status } = res;
-    setTopImageUrl(topImageUrl);
-    setFixedImageUrl(fixedImageUrl);
-    setiIsFixedTopImage(!!evokeData?.isFixedTopImage);
-    setCanEvoke(status === 1);
-  };
+  //   setEvokeData({
+  //     ...evokeData,
+  //     ...initEvokeData,
+  //   });
+  //   console.log("--", evokeData);
+  //   const res = await getCanEvoke({
+  //     domain: evokeData?.path,
+  //   });
+  //   const { topImageUrl, fixedImageUrl, status } = res;
+  //   setTopImageUrl(topImageUrl);
+  //   setFixedImageUrl(fixedImageUrl);
+  //   setiIsFixedTopImage(!!evokeData?.isFixedTopImage);
+  //   setCanEvoke(status === 1);
+  // };
   // 关闭顶部栏目
   const handleCloseEvokeTop = () => {
     setShowTop(false);

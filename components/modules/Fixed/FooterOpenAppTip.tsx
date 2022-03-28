@@ -1,5 +1,5 @@
 import { useState, FC } from "react";
-import WbImage from "@/components/common/Image";
+import NormalImage from "@/components/common/NormalImage";
 import style from "./FooterOpenAppTip.module.scss";
 
 type FooterOpenAppTipProp = {
@@ -12,7 +12,7 @@ const FooterOpenAppTip: FC<FooterOpenAppTipProp> = ({
 }) => {
   return (
     <div onClick={() => handleEvokeApp("fixed")} className={style.fixed}>
-      <WbImage src={fixedImageUrl}></WbImage>
+      <NormalImage src={fixedImageUrl}></NormalImage>
     </div>
   );
 };

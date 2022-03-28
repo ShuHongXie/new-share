@@ -10,6 +10,7 @@ import { useState, FC } from "react";
 import style from "./HeadDownloadAppTip.module.scss";
 import NormalImage from "@/components/common/NormalImage";
 import WbIcon from "@/components/common/Icon";
+import SearchBar from "@/components/common/SearchBar";
 
 type HeadDownloadAppTipProp = {
   topImageUrl: string;
@@ -19,24 +20,10 @@ type HeadDownloadAppTipProp = {
 };
 
 // 顶部下载App提示组件
-const HeadDownloadAppTip: FC<HeadDownloadAppTipProp> = ({
-  isFixedTopImage,
-  topImageUrl,
-  handleEvokeApp,
-  handleCloseEvokeTop,
-}) => {
+const HeadDownloadAppTip: FC<any> = ({}) => {
   return (
-    <div className={isFixedTopImage ? style.tipFixedTop : style.tipTop}>
-      <NormalImage
-        src={topImageUrl}
-        onClick={() => handleEvokeApp("top")}
-        className={style.child}
-      ></NormalImage>
-      <WbIcon
-        onClick={handleCloseEvokeTop}
-        icon="icon-btn_close"
-        customClass={[style.closeIcon].join(" ")}
-      ></WbIcon>
+    <div>
+      <SearchBar></SearchBar>
     </div>
   );
 };

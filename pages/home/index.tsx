@@ -11,13 +11,13 @@ import type {
   GetServerSidePropsContext,
 } from "next";
 import Head from "next/head";
-import WbImage from "@/components/common/Image";
 
 import Tabbar from "@/components/modules/Tabbar";
+import HomeHeader from "./modules/HomeHeader";
 import { Swiper, Toast } from "antd-mobile";
 import { getHomeDataNew } from "@/service/home";
 
-import homeStyle from "../styles/home.module.scss";
+import homeStyle from "./index.module.scss";
 import { useEffect } from "react";
 
 const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
@@ -47,8 +47,7 @@ const Home: NextPage = (props) => {
         <title>万表二手表</title>
       </Head>
       <div className={homeStyle.home}>
-        {/* <Swiper>{items}</Swiper> */}
-        {/* <WbImage src="21321321" width={200} height={200} /> */}
+        <HomeHeader></HomeHeader>
         <Tabbar active="首页" />
       </div>
     </div>

@@ -6,12 +6,11 @@
  * @FilePath: /new-share/components/common/Image.tsx
  */
 
-import Image from "next/image";
 import { getConstByEnv } from "@/utils/index";
 import config from "@/config/index";
 const ORIGIN = getConstByEnv(config.OSS);
 
-import style from "./Image.module.scss";
+import style from "./NormalImage.module.scss";
 
 export type Origin = {
   aliyuncs: string;
@@ -39,10 +38,8 @@ const ORIGINS: Origin = {
   hide: "",
 };
 
-const WbImage = ({
+const NormalImage = ({
   src = "",
-  width,
-  height,
   type,
   watermark = "",
   quality = 90,
@@ -73,15 +70,13 @@ const WbImage = ({
   };
 
   return (
-    <Image
-      className={[style.wbImage, className].join(" ")}
+    <img
+      className={[style.normalImage, className].join(" ")}
       src={imgUrl}
-      width={width}
-      height={height}
       alt=""
       onClick={imageClick}
     />
   );
 };
 
-export default WbImage;
+export default NormalImage;
