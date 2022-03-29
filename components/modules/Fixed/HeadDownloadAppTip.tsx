@@ -35,6 +35,7 @@ const HeadDownloadAppTip: FC<HeadDownloadAppTipProp> = ({
       <WbIcon
         onClick={handleCloseEvokeTop}
         icon="icon-btn_close"
+        color="#aaa"
         customClass={[style.closeIcon].join(" ")}
       ></WbIcon>
     </div>

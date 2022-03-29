@@ -11,14 +11,15 @@ import type {
   GetServerSidePropsContext,
 } from "next";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
 import Tabbar from "@/components/modules/Tabbar";
 import HomeHeader from "./modules/HomeHeader";
 import { Swiper, Toast } from "antd-mobile";
-import { getHomeDataNew } from "@/service/home";
+import { getHomeDataNew, getRecommendTag } from "@/service/home";
 
 import homeStyle from "./index.module.scss";
-import { useEffect } from "react";
+import { PlaceholderItem } from "@/entity/service/home.d";
 
 const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
 
@@ -37,8 +38,16 @@ const items = colors.map((color, index) => (
 ));
 
 const Home: NextPage = (props) => {
+  const [placeholderList, setPlaceholderList] = useState<PlaceholderItem[]>([]);
   useEffect(() => {
-    console.log(props);
+    (async () => {
+      const data = await getRecommendTag({
+        moduleCode: 0,
+        configType: 11,
+      });
+      console.log(data);
+      setPlaceholderList(data);
+    })();
   }, [props]);
 
   return (

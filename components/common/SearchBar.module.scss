@@ -1,2 +1,97 @@
-.searchBar {
+$searchbar-bg: rgba(242, 242, 242, 1);
+$searchbar-radius: 16px;
+$searchbar-color: #999;
+$searchbar-height: 32px;
+$search-btn-color: rgba(74, 144, 226, 1);
+.searchbar {
+  padding: 6px 0 6px 16px;
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  flex: 1;
+  &.sticky {
+    position: sticky;
+    padding-right: 16px;
+  }
+  &__input {
+    padding: 0 20px 0 10px;
+    border: none;
+    background: none;
+    width: 100%;
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none; //此处只是去掉默认的小×
+    }
+  }
+  &__tip {
+    font-size: 12px;
+    padding-left: 4px;
+    color: grey;
+    &--swiper {
+      height: 18px;
+      width: 160px;
+      // /deep/ .van-swipe-item {
+      //   white-space: nowrap;
+      //   overflow: hidden;
+      //   text-overflow: ellipsis;
+      // }
+    }
+  }
+  &__form {
+    flex: 1;
+    font-size: 13px;
+  }
+  &__container {
+    display: flex;
+    position: relative;
+    background: $searchbar-bg;
+    border-radius: $searchbar-radius;
+    flex: 1;
+    align-items: center;
+    padding: 2px 10px;
+    height: $searchbar-height;
+    overflow: hidden;
+    :global {
+      .adm-swiper-indicator {
+        display: none;
+      }
+      .adm-swiper-slide {
+        line-height: $searchbar-height;
+      }
+    }
+    .iconfont {
+      color: $searchbar-color;
+      font-size: 24px;
+    }
+    &--search {
+      font-size: 14px;
+      color: #333333;
+      padding-left: 14px;
+    }
+    &.is-radius {
+      border-radius: $searchbar-radius;
+    }
+    &.is-click {
+      // justify-content: center;
+      .searchbar__form {
+        flex: 0;
+      }
+    }
+    &--large {
+      padding: 6px 10px;
+    }
+  }
+  &__clear {
+    &--icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+  &__back {
+    font-size: 18px !important;
+    margin: 0 5px 0 -10px;
+    color: #000000;
+    font-weight: bold;
+  }
 }

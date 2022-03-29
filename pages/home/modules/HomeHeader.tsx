@@ -7,7 +7,7 @@
  */
 
 import { useState, FC } from "react";
-import style from "./HeadDownloadAppTip.module.scss";
+import style from "./HomeHeader.module.scss";
 import NormalImage from "@/components/common/NormalImage";
 import WbIcon from "@/components/common/Icon";
 import SearchBar from "@/components/common/SearchBar";
@@ -20,10 +20,32 @@ type HeadDownloadAppTipProp = {
 };
 
 // 顶部下载App提示组件
-const HeadDownloadAppTip: FC<any> = ({}) => {
+const HeadDownloadAppTip: FC<any> = ({
+  searchPlaceholder,
+  handleSearch,
+  backgroundColorValue,
+  homeData,
+}) => {
   return (
-    <div>
-      <SearchBar></SearchBar>
+    <div className={style["home-header"]}>
+      {/* {!homeData.bgImageUrl && (
+        <div
+          className={[style["home-header__bg"]].join(" ")}
+          style={{ backgroundColor: backgroundColorValue }}
+        ></div>
+      )} */}
+      <div className={style["home-header__content"]}>
+        <SearchBar
+          placeholderList={searchPlaceholder}
+          onlyClick
+          isSwiper
+        ></SearchBar>
+        <WbIcon
+          icon="icon-icon_iOS_msg"
+          customClass={style["home-header__content__msg"]}
+          size={36}
+        />
+      </div>
     </div>
   );
 };

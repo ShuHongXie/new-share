@@ -8,6 +8,7 @@
 import axios from "./config";
 import { RequestConfig } from "@/entity/service/index.d";
 import { GetServerSidePropsContext } from "next";
+import { PlaceholderItem } from "@/entity/service/home.d";
 
 // 首页数据
 export const getHomeDataNew = (params: any, ctx?: GetServerSidePropsContext) =>
@@ -15,4 +16,10 @@ export const getHomeDataNew = (params: any, ctx?: GetServerSidePropsContext) =>
     params,
     headers: { gateway: true },
     ctx,
+  } as RequestConfig);
+
+export const getRecommendTag = (params: any): Promise<PlaceholderItem[]> =>
+  axios.get("/recycleapi/home/front/getByType", {
+    params,
+    headers: { gateway: true },
   } as RequestConfig);

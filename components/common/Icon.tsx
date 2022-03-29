@@ -6,6 +6,7 @@
  * @FilePath: /new-share/components/common/Icon.tsx
  */
 import { FC, ReactNode } from "react";
+import style from "./Icon.module.scss";
 
 export type WbIconProp = {
   icon?: string;
@@ -20,17 +21,16 @@ export type WbIconProp = {
 
 // 通用icon组件
 const WbIcon: FC<WbIconProp> = ({
-  icon,
-  customClass,
+  icon = "",
+  customClass = "",
   styles,
-  size = 12,
+  size = 24,
   color = "#000",
   onClick,
 }) => {
-  size = size + "px";
   styles = {
     color,
-    fontSize: /[a-z]+/.test(size) ? size : `${size}px`,
+    fontSize: `${size}px`,
     ...styles,
   };
   // icon点击
@@ -41,7 +41,7 @@ const WbIcon: FC<WbIconProp> = ({
 
   return (
     <i
-      className={`iconfont ${icon} ${customClass}`}
+      className={["iconfont", icon, customClass].join(" ")}
       style={styles}
       onClick={iconClick}
     ></i>

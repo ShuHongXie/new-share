@@ -22,23 +22,27 @@ const nextConfig = withTM(
         },
         {
           source: "/manageapi/:path*",
-          destination: config.RIG_API[process.env.NODE_ENV] + "/:path*",
+          destination: config.API.manage[process.env.NODE_ENV] + "/:path*",
+        },
+        {
+          source: "/recycleapi/:path*",
+          destination: config.API.recycle[process.env.NODE_ENV] + "/:path*",
         },
         {
           source: "/paymentapi/:path*",
-          destination: config.RIG_API[process.env.NODE_ENV] + "/:path*",
+          destination: config.API.payment[process.env.NODE_ENV] + "/:path*",
         },
         {
           source: "/memberapi/:path*",
-          destination: config.RIG_API[process.env.NODE_ENV] + "/:path*",
+          destination: config.API.member[process.env.NODE_ENV] + "/:path*",
         },
         {
           source: "/logisticsapi/:path*",
-          destination: config.RIG_API[process.env.NODE_ENV] + "/:path*",
+          destination: config.API.logistics[process.env.NODE_ENV] + "/:path*",
         },
         {
           source: "/artisanapi/:path*",
-          destination: config.RIG_API[process.env.NODE_ENV] + "/:path*",
+          destination: config.API.artisan[process.env.NODE_ENV] + "/:path*",
         },
       ];
     },
