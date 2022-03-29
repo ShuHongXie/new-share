@@ -8,16 +8,20 @@
 import axios from "./config";
 import { RequestConfig } from "@/entity/service/index.d";
 import { GetServerSidePropsContext } from "next";
-import { PlaceholderItem } from "@/entity/service/home.d";
+import { HomeData, PlaceholderItem } from "@/entity/service/home.d";
 
 // 首页数据
-export const getHomeDataNew = (params: any, ctx?: GetServerSidePropsContext) =>
+export const getHomeDataNew = (
+  params: any,
+  ctx?: GetServerSidePropsContext
+): Promise<HomeData> =>
   axios.get("/rigPortal/mall/manage/homeTemplate/templateV3", {
     params,
     headers: { gateway: true },
     ctx,
   } as RequestConfig);
 
+// 首页搜索滚动占位
 export const getRecommendTag = (params: any): Promise<PlaceholderItem[]> =>
   axios.get("/recycleapi/home/front/getByType", {
     params,

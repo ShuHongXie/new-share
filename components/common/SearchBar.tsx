@@ -64,11 +64,9 @@ const SearchBar: FC<SearchBarProps> = ({
       ""
     );
 
-  const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
-
-  const verticalItems = colors.map((color, index) => (
+  const verticalItems = placeholderList.map((item, index) => (
     <Swiper.Item key={index}>
-      <div>{index + 1}</div>
+      <div>{item.simpleDetail}</div>
     </Swiper.Item>
   ));
   // 滚动栏目

@@ -9,6 +9,7 @@ import type {
   NextPage,
   GetServerSideProps,
   GetServerSidePropsContext,
+  InferGetServerSidePropsType,
 } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
@@ -37,18 +38,28 @@ const items = colors.map((color, index) => (
   </Swiper.Item>
 ));
 
-const Home: NextPage = (props) => {
+const Home: NextPage = ({
+  homeData,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [placeholderList, setPlaceholderList] = useState<PlaceholderItem[]>([]);
+  const [backgroundColorValue, setBackgroundColorValue] = useState("");
+  console.log("------------重新渲染", placeholderList);
   useEffect(() => {
+    // 获取搜索栏placeholder列表
     (async () => {
       const data = await getRecommendTag({
         moduleCode: 0,
         configType: 11,
       });
-      console.log(data);
       setPlaceholderList(data);
+      // 初始化背景颜色
+      // setBackgroundColorValue(
+      //   homeData.content[0].data.itemList
+      //     ? homeData.content[0].data.itemList[0].bgColor
+      //     : ""
+      // );
     })();
-  }, [props]);
+  }, []);
 
   return (
     <div>
@@ -56,7 +67,11 @@ const Home: NextPage = (props) => {
         <title>万表二手表</title>
       </Head>
       <div className={homeStyle.home}>
-        <HomeHeader></HomeHeader>
+        <HomeHeader
+          searchPlaceholder={placeholderList}
+          backgroundColorValue={backgroundColorValue}
+          bgImageUrl={homeData?.bgImageUrl}
+        ></HomeHeader>
         <Tabbar active="首页" />
       </div>
     </div>
@@ -66,14 +81,14 @@ const Home: NextPage = (props) => {
 export const getServerSideProps: GetServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const data = await getHomeDataNew(
+  const homeData = await getHomeDataNew(
     {
       platform: 2,
     },
     context
   );
 
-  return { props: { data } };
+  return { props: { homeData } };
 };
 
 export default Home;

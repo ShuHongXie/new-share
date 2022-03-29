@@ -4,14 +4,14 @@ $searchbar-color: #999;
 $searchbar-height: 32px;
 $search-btn-color: rgba(74, 144, 226, 1);
 .searchbar {
-  padding: 6px 0 6px 16px;
+  padding: 6px 0 6px 10px;
   display: flex;
   align-items: center;
   min-height: 32px;
   flex: 1;
   &.sticky {
     position: sticky;
-    padding-right: 16px;
+    padding: 6px 16px;
   }
   &__input {
     padding: 0 20px 0 10px;
