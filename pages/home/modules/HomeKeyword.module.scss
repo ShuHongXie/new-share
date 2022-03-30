@@ -1,0 +1,31 @@
+.home-keyword {
+  margin: 10px 11px 0 11px;
+  background: url("//static.wbiao.co/p/share/mp/images/home/brand-bj2.png")
+    no-repeat;
+  background-size: 100%;
+  height: 40px;
+  position: relative;
+  ul {
+    margin: 0 0 0 54px;
+    display: flex;
+    justify-content: flex-start;
+    li {
+      width: 60px;
+      margin: 7px 10px 0 0;
+      text-align: center;
+      line-height: 25px;
+      background: rgba(255, 223, 179, 0.62);
+      border-radius: 6px;
+      .text {
+        font-size: 12px;
+        font-weight: 400;
+        color: #422500;
+      }
+    }
+  }
+  .right-icon {
+    position: absolute;
+    right: 11px;
+    top: 15px;
+  }
+}

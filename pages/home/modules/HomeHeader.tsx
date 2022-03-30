@@ -14,14 +14,14 @@ import SearchBar from "@/components/common/SearchBar";
 
 import { PlaceholderItem } from "@/entity/service/home.d";
 
-type HeadDownloadAppTipProp = {
+type HomeHeaderProps = {
   searchPlaceholder: PlaceholderItem[];
   bgImageUrl?: string;
   backgroundColorValue?: string;
 };
 
 // 顶部下载App提示组件
-const HomeHeader: FC<HeadDownloadAppTipProp> = ({
+const HomeHeader: FC<HomeHeaderProps> = ({
   searchPlaceholder,
   bgImageUrl,
   backgroundColorValue,

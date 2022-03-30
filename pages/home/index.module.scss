@@ -1,4 +1,11 @@
 .home {
+  background-color: #f2f2f2;
+  &-section {
+    background-color: #fff;
+    &.not-bg {
+      background-color: none;
+    }
+  }
 }
 
 .content {

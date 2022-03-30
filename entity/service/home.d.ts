@@ -137,6 +137,8 @@ export interface ItemList {
   pageParameter?: string;
   pageType1?: number;
   pageParameter1?: string;
+  targetUrl?: string;
+  targetType?: number;
   spPageType?: number;
   spParameter?: string;
   scode?: string;

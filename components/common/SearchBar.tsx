@@ -96,9 +96,7 @@ const SearchBar: FC<SearchBarProps> = ({
 
   return (
     <div
-      className={[style["searchbar"], style["sticky"] ? "sticky" : ""].join(
-        " "
-      )}
+      className={[style["searchbar"], fixed ? style["sticky"] : ""].join(" ")}
     >
       {/* 返回按钮 */}
       {backIcon()}

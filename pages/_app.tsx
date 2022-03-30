@@ -22,6 +22,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="viewport"
           content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
         />
+        <link
+          rel="shortcut icon"
+          href="//static.wbiao.co/mobile/wbshare/bitbug_favicons.ico"
+          type="image/x-icon"
+        />
       </Head>
       <RecoilRoot>
         <Layout>

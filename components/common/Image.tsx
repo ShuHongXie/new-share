@@ -29,6 +29,7 @@ export type ImageParam = {
   originType?: string;
   quality?: number;
   height?: number;
+  objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down";
   onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
 };
 
@@ -44,6 +45,7 @@ const WbImage = ({
   width,
   height,
   type,
+  objectFit = "fill",
   watermark = "",
   quality = 90,
   parameter = "",
@@ -78,6 +80,8 @@ const WbImage = ({
       src={imgUrl}
       width={width}
       height={height}
+      objectFit={objectFit}
+      layout={!width && !width ? "fill" : "responsive"}
       alt=""
       onClick={imageClick}
     />
