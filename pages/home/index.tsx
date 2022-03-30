@@ -13,6 +13,10 @@ import type {
 } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import { getHomeDataNew, getRecommendTag } from "@/service/home";
+
+import style from "./index.module.scss";
+import { PlaceholderItem, Content, Data } from "@/entity/service/home.d";
 
 import Tabbar from "@/components/modules/Tabbar";
 import HomeHeader from "./modules/HomeHeader";
@@ -20,10 +24,8 @@ import HomeBanner from "./modules/HomeBanner";
 import HomeAdvert from "./modules/HomeAdvert";
 import HomeNavigation from "./modules/HomeNavigation";
 import HomeKeyword from "./modules/HomeKeyword";
-import { getHomeDataNew, getRecommendTag } from "@/service/home";
-
-import style from "./index.module.scss";
-import { PlaceholderItem, Content, Data } from "@/entity/service/home.d";
+import HomeToolbar from "./modules/HomeToolbar";
+import ListTitle from "@/components/modules/Card/ListTitle";
 
 const Home: NextPage = ({
   homeData,
@@ -67,7 +69,7 @@ const Home: NextPage = ({
             key={index}
             className={[
               style["home-section"],
-              [17].includes(item.type as number) ? style["not-bg"] : "",
+              [1].includes(item.type as number) ? style["bg"] : "",
             ].join(" ")}
           >
             {/* 轮播区域 */}
@@ -86,8 +88,16 @@ const Home: NextPage = ({
             {item.type === 11 && <HomeNavigation data={item.data} />}
             {/* 快速查表区域 */}
             {item.type === 17 && <HomeKeyword data={item.data} />}
+            {/* 图标标识区域 */}
+            {item.type === 12 && <HomeToolbar data={item.data} />}
           </section>
         ))}
+        {/* 为你推荐 */}
+        <ListTitle
+          title="为您推荐"
+          subTitle="RECOMMENDED FOR YOU"
+          customClass={style["home-list-title"]}
+        />
         <Tabbar active="首页" />
       </div>
     </div>

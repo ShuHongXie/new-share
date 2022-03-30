@@ -28,6 +28,7 @@ body {
   -webkit-text-size-adjust: none;
   user-select: none;
   font-size: 14px;
+  height: 100vh;
   /* background: rgba(241, 241, 241, 1); */
 }
 /* 适配iphonex */

@@ -1,7 +1,10 @@
 .home-header {
   background-size: 100%;
   align-items: center;
-  position: relative;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 99;
   &__bg {
     height: 116px;
     background: url("//static.wbiao.co/p/share/mp/images/home/head-bj.png?2020")
@@ -16,11 +19,11 @@
     border-bottom-right-radius: 100% 10%;
   }
   &__content {
-    position: sticky;
+    position: relative;
     left: 0;
     top: 0;
-    width: 100%;
     z-index: 99;
+    width: 100%;
     height: 44px;
     display: flex;
     align-items: center;

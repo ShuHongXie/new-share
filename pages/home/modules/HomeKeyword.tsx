@@ -7,8 +7,8 @@ import WbIcon from "@/components/common/Icon";
 
 type HomeKeywordProps = {
   data?: Data;
-  handleStocks: any;
-  handleCrux: any;
+  handleStocks?: any;
+  handleCrux?: any;
 };
 
 const HomeKeyword: FC<HomeKeywordProps> = ({
