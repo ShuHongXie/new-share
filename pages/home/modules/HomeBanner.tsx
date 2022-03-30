@@ -1,5 +1,5 @@
 import { Swiper } from "antd-mobile";
-import { FC } from "react";
+import { FC, memo } from "react";
 import style from "./HomeBanner.module.scss";
 
 import { ItemList } from "@/entity/service/home.d";
@@ -14,7 +14,9 @@ type HomeBannerProps = {
 };
 
 // 顶部下载App提示组件
-const HomeBanner: FC<HomeBannerProps> = ({ data, code, handleLink }) => {
+const HomeBanner: FC<HomeBannerProps> = memo(({ data, code, handleLink }) => {
+  console.log("homebanner开始渲染");
+
   const handleClickModular = (item: ItemList) => {
     const {
       pageType1,
@@ -56,6 +58,6 @@ const HomeBanner: FC<HomeBannerProps> = ({ data, code, handleLink }) => {
       </Swiper>
     </div>
   );
-};
+});
 
 export default HomeBanner;

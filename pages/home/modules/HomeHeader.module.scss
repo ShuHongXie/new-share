@@ -5,19 +5,20 @@
   top: 0;
   left: 0;
   z-index: 99;
-  &__bg {
-    height: 116px;
-    background: url("//static.wbiao.co/p/share/mp/images/home/head-bj.png?2020")
-      no-repeat;
-    background-size: 100%;
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    border-bottom-left-radius: 100% 10%;
-    border-bottom-right-radius: 100% 10%;
-  }
+  background-color: rgb(203, 63, 47);
+  // &__bg {
+  //   height: 116px;
+  //   background: url("//static.wbiao.co/p/share/mp/images/home/head-bj.png?2020")
+  //     no-repeat;
+  //   background-size: 100%;
+  //   position: absolute;
+  //   z-index: 1;
+  //   left: 0;
+  //   top: 0;
+  //   width: 100%;
+  //   border-bottom-left-radius: 100% 10%;
+  //   border-bottom-right-radius: 100% 10%;
+  // }
   &__content {
     position: relative;
     left: 0;

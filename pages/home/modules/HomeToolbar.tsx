@@ -1,5 +1,5 @@
 import NormalImage from "@/components/common/NormalImage";
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 import { Data } from "@/entity/service/home";
 
 import style from "./HomeToolbar.module.scss";
@@ -9,7 +9,7 @@ type HomeToolbarProps = {
   handleClick?: () => void;
 };
 
-const HomeToolbar: FC<HomeToolbarProps> = ({ data, handleClick }) => {
+const HomeToolbar: FC<HomeToolbarProps> = memo(({ data, handleClick }) => {
   return (
     <div className={style["home-toolbar"]}>
       {data?.itemList?.map((item, index) => (
@@ -32,6 +32,6 @@ const HomeToolbar: FC<HomeToolbarProps> = ({ data, handleClick }) => {
       ))}
     </div>
   );
-};
+});
 
 export default HomeToolbar;
