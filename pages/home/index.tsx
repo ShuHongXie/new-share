@@ -12,7 +12,7 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getHomeDataNew, getRecommendTag } from "@/service/home";
 
 import style from "./index.module.scss";
@@ -50,8 +50,8 @@ const Home: NextPage = ({
     })();
   }, []);
 
-  const handleLink = () => {};
-  const swiperChange = () => {};
+  const handleLink = useCallback(() => {}, []);
+  const swiperChange = useCallback(() => {}, []);
 
   return (
     <div>
@@ -61,7 +61,6 @@ const Home: NextPage = ({
       <div className={style["home"]}>
         <HomeHeader
           searchPlaceholder={placeholderList}
-          backgroundColorValue={backgroundColorValue}
           bgImageUrl={homeData?.bgImageUrl}
         ></HomeHeader>
         {homeData.content.map((item: Content, index: number) => (

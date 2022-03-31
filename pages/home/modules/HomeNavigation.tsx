@@ -1,5 +1,5 @@
 import NormalImage from "@/components/common/NormalImage";
-import { FC, useEffect, useState } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import { Content, ItemList, Data } from "@/entity/service/home";
 
 import style from "./HomeNavigation.module.scss";
@@ -11,7 +11,7 @@ type HomeNavigationProps = {
   handleClickTag?: any;
 };
 
-const HomeNavigation: FC<HomeNavigationProps> = ({ data }) => {
+const HomeNavigation: FC<HomeNavigationProps> = memo(({ data }) => {
   const [swiperList, setSwiperList] = useState<Array<Array<ItemList>>>([]);
   useEffect(() => {
     if (data?.itemList?.length) {
@@ -70,6 +70,6 @@ const HomeNavigation: FC<HomeNavigationProps> = ({ data }) => {
       )}
     </div>
   );
-};
+});
 
 export default HomeNavigation;
