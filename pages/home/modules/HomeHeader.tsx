@@ -30,12 +30,12 @@ const HomeHeader: FC<HomeHeaderProps> = ({
 
   return (
     <div className={style["home-header"]}>
-      {!bgImageUrl && (
+      {/* {!bgImageUrl && (
         <div
           className={[style["home-header__bg"]].join(" ")}
           style={{ backgroundColor: backgroundColorValue }}
         ></div>
-      )}
+      )} */}
       <div className={style["home-header__content"]}>
         <SearchBar
           placeholderList={searchPlaceholder}

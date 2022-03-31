@@ -43,17 +43,19 @@ const HomeBanner: FC<HomeBannerProps> = ({ data, code, handleLink }) => {
 
   return (
     <div className={style.swiper}>
-      <Swiper
-        style={{
-          "--border-radius": "8px",
-        }}
-        indicatorProps={{
-          color: "white",
-        }}
-        defaultIndex={3}
-      >
-        {items}
-      </Swiper>
+      {data?.length && (
+        <Swiper
+          style={{
+            "--border-radius": "8px",
+          }}
+          indicatorProps={{
+            color: "white",
+          }}
+          defaultIndex={3}
+        >
+          {items}
+        </Swiper>
+      )}
     </div>
   );
 };

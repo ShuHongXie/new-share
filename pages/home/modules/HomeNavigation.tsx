@@ -52,20 +52,22 @@ const HomeNavigation: FC<HomeNavigationProps> = ({ data }) => {
 
   return (
     <div className={style["home-navigation"]}>
-      <Swiper
-        style={{
-          "--border-radius": "8px",
-          "--track-padding": " 0 0 24px",
-        }}
-        indicatorProps={{
-          // @ts-ignore
-          color: "#999",
-          "--active-dot-color": "#333",
-        }}
-        defaultIndex={3}
-      >
-        {items}
-      </Swiper>
+      {swiperList.length && (
+        <Swiper
+          style={{
+            "--border-radius": "8px",
+            "--track-padding": " 0 0 24px",
+          }}
+          indicatorProps={{
+            // @ts-ignore
+            color: "#999",
+            "--active-dot-color": "#333",
+          }}
+          defaultIndex={3}
+        >
+          {items}
+        </Swiper>
+      )}
     </div>
   );
 };

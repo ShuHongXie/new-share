@@ -72,7 +72,8 @@ const SearchBar: FC<SearchBarProps> = ({
   // 滚动栏目
   const swiperBlock = () =>
     onlyClick &&
-    isSwiper && (
+    isSwiper &&
+    placeholderList.length && (
       <Swiper style={{ "--height": "32px" }} direction="vertical" autoplay loop>
         {verticalItems}
       </Swiper>
