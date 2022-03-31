@@ -13,10 +13,16 @@ import type {
 } from "next";
 import Head from "next/head";
 import { useCallback, useEffect, useState } from "react";
-import { getHomeDataNew, getRecommendTag } from "@/service/home";
+import {
+  getHomeDataNew,
+  getRecommendTag,
+  getHomeRecommendList,
+} from "@/service/home";
 
 import style from "./index.module.scss";
-import { PlaceholderItem, Content, Data } from "@/entity/service/home.d";
+import { PlaceholderItem, Content } from "@/entity/service/home.d";
+
+import { PaginationProps } from "@/entity/config/props";
 
 import Tabbar from "@/components/modules/Tabbar";
 import HomeHeader from "./modules/HomeHeader";
@@ -26,13 +32,31 @@ import HomeNavigation from "./modules/HomeNavigation";
 import HomeKeyword from "./modules/HomeKeyword";
 import HomeToolbar from "./modules/HomeToolbar";
 import ListTitle from "@/components/modules/Card/ListTitle";
+import List from "@/components/common/List";
+
+type Params = PaginationProps<{
+  page: number;
+  size: number;
+}>;
 
 const Home: NextPage = ({
   homeData,
+  recommendList,
+  pager,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [placeholderList, setPlaceholderList] = useState<PlaceholderItem[]>([]);
   const [backgroundColorValue, setBackgroundColorValue] = useState("");
+  const [params, setParams] = useState<Params>({
+    pagination: {
+      page: 1,
+      size: 10,
+    },
+    status: "LOAD",
+    total: 10,
+  });
+
   console.log("------------重新渲染", placeholderList, homeData);
+
   useEffect(() => {
     // 获取搜索栏placeholder列表
     (async () => {
@@ -48,6 +72,8 @@ const Home: NextPage = ({
           : ""
       );
     })();
+
+    // useEffect(() => {}, []);
   }, []);
 
   const handleLink = useCallback(() => {}, []);
@@ -61,6 +87,7 @@ const Home: NextPage = ({
       <div className={style["home"]}>
         <HomeHeader
           searchPlaceholder={placeholderList}
+          backgroundColorValue={backgroundColorValue}
           bgImageUrl={homeData?.bgImageUrl}
         ></HomeHeader>
         {homeData.content.map((item: Content, index: number) => (
@@ -97,6 +124,8 @@ const Home: NextPage = ({
           subTitle="RECOMMENDED FOR YOU"
           customClass={style["home-list-title"]}
         />
+        {/* 底部商品列表 */}
+        {/* <List></List> */}
         <Tabbar active="首页" />
       </div>
     </div>
@@ -112,8 +141,18 @@ export const getServerSideProps: GetServerSideProps = async (
     },
     context
   );
+  // 分页列表
+  const pagination = {
+    page: 0,
+    size: 10,
+  };
+  const { list: recommendList, pager } = await getHomeRecommendList(
+    pagination,
+    context
+  );
+  console.log(recommendList);
 
-  return { props: { homeData } };
+  return { props: { homeData, recommendList, pager } };
 };
 
 export default Home;

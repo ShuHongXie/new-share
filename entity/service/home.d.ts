@@ -27,6 +27,98 @@ export interface PlaceholderItem {
   smdtColor?: unknown;
 }
 
+export interface RecommendData {
+  list?: RecommendGood[];
+  pager?: Pager;
+}
+
+export interface Pager {
+  total?: number;
+  size?: number;
+  now?: number;
+  class?: string;
+}
+export interface RecommendGood {
+  uniqueNo?: null;
+  seriesCode?: number;
+  discount?: number;
+  wbiaoPrice?: number;
+  fxPrice?: null;
+  videoId?: number;
+  readCount?: number;
+  canLease?: number;
+  shareCodeStr?: string;
+  belonging?: number;
+  watchMaterialName?: string;
+  price?: number;
+  shareFav?: number;
+  careCardDesc?: string;
+  qualityCode?: number;
+  activityForgift?: number;
+  goodsName?: string;
+  selected?: number;
+  brandCode?: number;
+  zyypTagImg?: string;
+  models?: string;
+  toAuction?: number;
+  brandName?: string;
+  suitableCrowd?: number;
+  seriesName?: string;
+  goodsClass?: number;
+  pawnDate?: number;
+  watchMaterial?: number;
+  subStatus?: number;
+  tags?: null;
+  inCase?: number;
+  qualityName?: string;
+  watchModuleName?: string;
+  shopImageUrl?: null;
+  rentAmtPerDay?: number;
+  leaseCode?: number;
+  shareName?: string;
+  showPlace?: number;
+  status?: number;
+  recommendShareName?: string;
+  shareCode?: number;
+  shopArea?: null;
+  marketPrice?: number;
+  shelfStatus?: number;
+  forgiftDiscount?: string;
+  shopName?: string;
+  careCard?: number;
+  subStatusName?: null;
+  goodsSource?: null;
+  brandLogoImageUrl?: string;
+  goodsVideoInfo?: null;
+  watchMaterialTagName?: string;
+  imageUrl?: string;
+  statusName?: string;
+  sealInfo?: null;
+  class?: string;
+  goodsNo?: null;
+  shopCode?: number;
+  os?: number;
+  salePrice?: number;
+  overFixPriceDesc?: string;
+  belongingName?: string;
+  costPrice?: number;
+  inZdb?: number;
+  refresh?: number;
+  watchModule?: number;
+  modelAlias?: string;
+  careCardDate?: number;
+  agentPrice?: number;
+  toRecycle?: number;
+  newModel?: number;
+  pawnBackDate?: number;
+  shareTitle?: null;
+  goodsNameLine?: string;
+  createTime?: number;
+  orderCode?: number;
+  goodsTitle?: string;
+  suitableCrowdName?: string;
+}
+
 export interface HomeData {
   templateStrategyId?: number;
   topBgImageUrl?: string;
