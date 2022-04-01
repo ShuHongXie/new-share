@@ -1,0 +1,125 @@
+// 类型
+// primary
+$tag-primary-bg: linear-gradient(
+  90deg,
+  rgba(242, 222, 194, 1) 0%,
+  rgba(255, 223, 179, 1) 100%
+);
+$tag-primary-border-color: rgba(255, 223, 179, 1);
+$tag-primary-color: #4d4d4d;
+// info
+$tag-info-bg: linear-gradient(
+  270deg,
+  rgba(218, 218, 218, 1) 0%,
+  rgba(197, 197, 197, 1) 100%
+);
+$tag-info-border-color: rgba(197, 197, 197, 1);
+// danger
+$tag-danger-bg: linear-gradient(315deg, #ff8080 0%, #f34242 100%);
+$tag-danger-border-color: rgba(204, 61, 61, 1);
+// warning
+$tag-warning-bg: linear-gradient(314deg, #ff9f00 0%, #ff9100 100%);
+$tag-warning-border-color: rgba(204, 153, 82, 1);
+// 大小
+$tag-height-small: 16px;
+.tag {
+  display: inline-block;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: "Roboto-Regular";
+  text-align: center;
+  white-space: nowrap;
+  line-height: normal;
+  border: 1px solid transparent;
+  outline: 0;
+  vertical-align: middle;
+  &.is-bold {
+    font-weight: bold;
+  }
+  &.is-plain {
+    background: rgba(255, 255, 255, 0);
+  }
+  &.is-radius {
+    border-radius: 10px;
+  }
+  & + .tag {
+    margin-left: 4px;
+  }
+  // 大小
+  &__size {
+    &--mini {
+      height: $tag-height-small;
+      display: inline-flex;
+      align-items: center;
+      span {
+        display: inline-block;
+        font-size: 12px;
+        transform: scale(0.8);
+      }
+    }
+    &--middle {
+      font-size: 12px;
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    &--small {
+      font-size: 12px;
+      padding: 2px 7px;
+    }
+  }
+  // 类型
+  &__type {
+    &--primary {
+      background: $tag-primary-bg;
+      color: $tag-primary-color;
+      background-origin: border-box;
+      &.is-plain {
+        border-color: $tag-primary-border-color;
+        color: $tag-primary-border-color;
+      }
+    }
+    &--cancel {
+      background: #fff;
+      color: #666666;
+      border: 1px solid #979797;
+      &.is-plain {
+        border-color: $tag-primary-border-color;
+        color: $tag-primary-border-color;
+      }
+    }
+    &--info {
+      background: #e6e6e6;
+      color: #666666;
+      background-origin: border-box;
+      &.is-plain {
+        border-color: $tag-info-border-color;
+        color: $tag-info-border-color;
+      }
+    }
+    &--warning {
+      background: $tag-warning-bg;
+      background-origin: border-box;
+      &.is-plain {
+        border-color: $tag-warning-border-color;
+        color: $tag-warning-border-color;
+      }
+    }
+    &--danger {
+      background: $tag-danger-bg;
+      background-origin: border-box;
+      &.is-plain {
+        border-color: $tag-danger-border-color;
+        color: $tag-danger-border-color;
+      }
+    }
+  }
+  &-icon {
+    font-size: 11px;
+    vertical-align: middle;
+    position: absolute;
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+  }
+}

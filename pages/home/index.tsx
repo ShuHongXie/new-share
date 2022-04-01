@@ -58,6 +58,8 @@ const Home: NextPage = ({
   console.log("------------重新渲染", placeholderList, homeData);
 
   useEffect(() => {
+    console.log(recommendList);
+
     // 获取搜索栏placeholder列表
     (async () => {
       const data = await getRecommendTag({
