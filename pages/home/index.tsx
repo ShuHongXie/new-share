@@ -20,7 +20,11 @@ import {
 } from "@/service/home";
 
 import style from "./index.module.scss";
-import { PlaceholderItem, Content } from "@/entity/service/home.d";
+import {
+  PlaceholderItem,
+  Content,
+  RecommendGood,
+} from "@/entity/service/home.d";
 
 import { PaginationProps } from "@/entity/config/props";
 
@@ -33,6 +37,7 @@ import HomeKeyword from "./modules/HomeKeyword";
 import HomeToolbar from "./modules/HomeToolbar";
 import ListTitle from "@/components/modules/Card/ListTitle";
 import List from "@/components/common/List";
+import Good from "@/components/modules/Panel/Good";
 
 type Params = PaginationProps<{
   page: number;
@@ -127,7 +132,19 @@ const Home: NextPage = ({
           customClass={style["home-list-title"]}
         />
         {/* 底部商品列表 */}
-        {/* <List></List> */}
+        <List total={pager.total} status={params.status}>
+          <>
+            {recommendList.map((item: RecommendGood) => (
+              <Good
+                key={item.shareCode}
+                data={item}
+                path={`/share/${item.shareCode}.html`}
+                type="danger"
+                scene="list"
+              />
+            ))}
+          </>
+        </List>
         <Tabbar active="首页" />
       </div>
     </div>
@@ -152,8 +169,13 @@ export const getServerSideProps: GetServerSideProps = async (
     pagination,
     context
   );
-  console.log(recommendList);
-
+  console.log(pager);
+  /*
+  pager
+  total: 221,
+  size: 10,
+  now: 0,
+  */
   return { props: { homeData, recommendList, pager } };
 };
 

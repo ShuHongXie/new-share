@@ -82,14 +82,14 @@ export default function Layout({ children }: { children: ReactNode }) {
         ""
       )}
       <main>{children}</main>
-      {canEvoke && fixedImageUrl ? (
+      {/* {canEvoke && fixedImageUrl ? (
         <FooterOpenAppTip
           fixedImageUrl={fixedImageUrl}
           handleEvokeApp={handleEvokeApp}
         />
       ) : (
         ""
-      )}
+      )} */}
     </>
   );
 }

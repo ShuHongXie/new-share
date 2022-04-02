@@ -1,6 +1,8 @@
 import { FC, ReactNode } from "react";
-import Empty from "./Empty";
+
 import style from "./List.module.scss";
+
+import Empty from "./Empty";
 import LoadMore from "./LoadMore";
 
 type ListProps = {
@@ -23,6 +25,8 @@ const List: FC<ListProps> = ({
   retry,
   children,
 }) => {
+  console.log(status, total);
+
   const emptyArea = () =>
     status === "END" &&
     !total && (
@@ -43,6 +47,7 @@ const List: FC<ListProps> = ({
         )}
       </div>
     );
+  console.log(children);
 
   const contentArea = () => total && children;
 

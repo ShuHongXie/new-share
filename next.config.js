@@ -7,12 +7,17 @@
  */
 const withImages = require("next-images");
 const withTM = require("next-transpile-modules")(["antd-mobile"]);
+const path = require("path");
 const config = require("./config/test.js");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withTM(
   withImages({
     reactStrictMode: true,
+    sassOptions: {
+      includePaths: [path.join(__dirname, "styles")],
+      prependData: `@import "common.scss";`,
+    },
     async rewrites() {
       return [
         {

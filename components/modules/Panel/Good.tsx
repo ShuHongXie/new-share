@@ -1,5 +1,5 @@
-import NormalImage from "@/components/common/NormalImage";
 import { FC, memo, useState } from "react";
+import { toMoney } from "@/utils";
 import WbTag from "@/components/common/Tag";
 import { RecommendGood } from "@/entity/service/home";
 
@@ -7,46 +7,58 @@ import style from "./Good.module.scss";
 import { NavBarProps } from "antd-mobile/es/components/nav-bar";
 import Link from "next/link";
 import WbImage from "@/components/common/Image";
+import NormalImage from "@/components/common/NormalImage";
 
 type HomeAdvertProps = {
-  path: string; //
-  type: string; // warning  warning' | 'danger,
-  scene: string; // 'list'  'discount' | 'count-down'
+  path?: string; //
+  type?: string; // warning  warning' | 'danger,
+  scene?: string; // 'list'  'discount' | 'count-down'
   data: RecommendGood;
-  isShowStatus: boolean; // false  是否显示竞拍标签，默认不显示
-  showDiscount: boolean; // true  是否显示折扣标签，默认显示
-  showPriceType: number; // 0 目前是区分竞拍和正常的商品价格样式，默认是正常的
-  showStatus: boolean; //  false 控制是否显示遮罩层，例如已售出这些状态,默认不显示
-  jumpPath: string;
-  goodType: string | number; // 0 // 此是区分商品的样式，0代表表库，1代表竞拍的
-  endTime: number | string; // new Date().getTime()
-  showAuctionStatus: boolean; // false
-  adInfo: any; // Array 广告列表
-  goodsIndex: number; // 0  // 这个是商品列表数组的下标，是为了每六个商品，显示一张广告图
-  handleJumpDynamic: any;
+  isShowStatus?: boolean; // false  是否显示竞拍标签，默认不显示
+  showDiscount?: boolean; // true  是否显示折扣标签，默认显示
+  showPriceType?: number; // 0 目前是区分竞拍和正常的商品价格样式，默认是正常的
+  showStatus?: boolean; //  false 控制是否显示遮罩层，例如已售出这些状态,默认不显示
+  jumpPath?: string;
+  goodType?: string | number; // 0 // 此是区分商品的样式，0代表表库，1代表竞拍的
+  endTime?: number | string; // new Date().getTime()
+  showAuctionStatus?: boolean; // false
+  adInfo?: any; // Array 广告列表
+  goodsIndex?: number; // 0  // 这个是商品列表数组的下标，是为了每六个商品，显示一张广告图
+  handleJumpDynamic?: any;
+  index?: number;
+};
+
+const SIZE: { [key: string]: number[] } = {
+  list: [175, 215],
+  discount: [134, 165],
+  "count-down": [134, 165],
 };
 
 const Good: FC<HomeAdvertProps> = memo(
   ({
-    scene,
-    goodsIndex,
-    path,
+    scene = "list",
+    goodsIndex = 0,
+    path = "",
     data = {},
     adInfo,
     handleJumpDynamic,
-    showStatus,
+    showStatus = false,
     goodType,
     showAuctionStatus,
-    showPriceType,
+    showPriceType = 0,
     isShowStatus,
-    showDiscount,
-    type,
+    showDiscount = true,
+    type = "warning",
   }) => {
     const [goodClass, setGoodClass] = useState(`good__scene--${scene}`);
-    const [goodSize, setGoodSize] = useState("");
-    const filterToMoney = (code: any) => 213;
+    const [goodSize, setGoodSize] = useState(() => {
+      return `m_fill,w_${SIZE[scene][0] * 2},h_${
+        SIZE[scene][1] * 2
+      },g_center,limit=0`;
+    });
+    const filterToMoney = toMoney;
     return (
-      <div className={[style["goods"], goodClass].join(" ")}>
+      <div className={[style["good"], style[goodClass]].join(" ")}>
         {goodsIndex % 6 === 0 && goodsIndex !== 0 && adInfo.length !== 0 && (
           <div
             onClick={(e) => handleJumpDynamic(adInfo[goodsIndex / 6 - 1])}
@@ -74,9 +86,10 @@ const Good: FC<HomeAdvertProps> = memo(
                 }}
               >
                 <WbImage
+                  width={350}
+                  height={430}
                   src={data.imageUrl}
                   parameter={goodSize}
-                  lazy-load
                 ></WbImage>
                 {data.sealInfo && (
                   <div className={style["good__cover--sealInfo"]}>
@@ -155,13 +168,13 @@ const Good: FC<HomeAdvertProps> = memo(
                             : "",
                         ].join(" ")}
                       >
-                        {filterToMoney(data.price)}
+                        {filterToMoney(data.price as number)}
                       </strong>
                     )}
 
                     {showPriceType === 0 && (
                       <span className={style["is-through"]}>
-                        {filterToMoney(data.marketPrice)}
+                        {filterToMoney(data.marketPrice as number)}
                       </span>
                     )}
 
@@ -181,12 +194,10 @@ const Good: FC<HomeAdvertProps> = memo(
                   {/* 标题 */}
                   <div
                     className={[
-                      [
-                        style["good__content--title"],
-                        [2, 3].includes(data.status as number) && goodType === 0
-                          ? style["good__content--SaleOut"]
-                          : "",
-                      ],
+                      style["good__content--title"],
+                      [2, 3].includes(data.status as number) && goodType === 0
+                        ? style["good__content--SaleOut"]
+                        : "",
                     ].join(" ")}
                   >
                     {isShowStatus && (
@@ -207,47 +218,11 @@ const Good: FC<HomeAdvertProps> = memo(
                   </div>
                   {/* 打折 倒计时  */}
                   <div className={style["good__tags"]}>
-                    {[2, 3].includes(data.status as number) &&
-                    !showStatus &&
-                    goodType === 0 ? (
-                      <WbTag data="已售出" size="mini" bold type="info" />
-                    ) : (
-                      <>
-                        {showDiscount && data.overFixPriceDesc && (
-                          <WbTag
-                            type={
-                              [2, 3].includes(data.status as number)
-                                ? "info"
-                                : type
-                            }
-                            data={data.overFixPriceDesc}
-                            size="mini"
-                            bold
-                          />
-                        )}
-                        {data.watchMaterialTagName && (
-                          <WbTag
-                            data={data.watchMaterialTagName}
-                            type="primary"
-                            size="mini"
-                            bold
-                          />
-                        )}
-                        {data.tags.map((item, index: number) => (
-                          <WbTag
-                            key={index}
-                            data={item.tagName}
-                            type={
-                              [2, 3].includes(data.status as number) &&
-                              goodType === 0
-                                ? "info"
-                                : "cancel"
-                            }
-                            size="mini"
-                            bold
-                          />
-                        ))}
-                      </>
+                    {data.zyypTagImg && (
+                      <NormalImage
+                        className={style["good__tags--zyyp"]}
+                        src={data.zyypTagImg}
+                      />
                     )}
                     {[2, 3].includes(data.status as number) &&
                     !showStatus &&
@@ -264,18 +239,16 @@ const Good: FC<HomeAdvertProps> = memo(
                             }
                             data={data.overFixPriceDesc}
                             size="mini"
-                            bold
                           />
                         )}
                         {data.watchMaterialTagName && (
                           <WbTag
                             data={data.watchMaterialTagName}
-                            type="primary"
                             size="mini"
                             bold
                           />
                         )}
-                        {data.tags.map((item, index: number) => (
+                        {/* {data.tags.map((item, index: number) => (
                           <WbTag
                             key={index}
                             data={item.tagName}
@@ -288,7 +261,7 @@ const Good: FC<HomeAdvertProps> = memo(
                             size="mini"
                             bold
                           />
-                        ))}
+                        ))} */}
                       </>
                     )}
                   </div>
@@ -297,7 +270,7 @@ const Good: FC<HomeAdvertProps> = memo(
               {/* 类型：大家都在看 & 我在看 */}
               {(scene === "discount" || scene === "count-down") && (
                 <>
-                  <div className={style["good__content--tag"]}>
+                  {/* <div className={style["good__content--tag"]}>
                     <WbTag
                       type={type}
                       data={
@@ -321,7 +294,7 @@ const Good: FC<HomeAdvertProps> = memo(
                       radius
                       bold
                     />
-                  </div>
+                  </div> */}
                   {/* 价格 */}
                   <div
                     className={[
@@ -343,10 +316,11 @@ const Good: FC<HomeAdvertProps> = memo(
                   </div>
                   {/* 标题 */}
                   <div
-                    className={
-                      (style["good__content--title"],
-                      [style[`is-${scene}`], style[`is-${type}`]].join())
-                    }
+                    className={[
+                      style["good__content--title"],
+                      style[`is-${scene}`],
+                      style[`is-${type}`],
+                    ].join()}
                   >
                     {data.brandName}·{data.suitableCrowdName}
                     {data.watchModuleName}

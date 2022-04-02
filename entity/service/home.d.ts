@@ -117,7 +117,9 @@ export interface RecommendGood {
   orderCode?: number;
   goodsTitle?: string;
   suitableCrowdName?: string;
+  priceMax: number;
   priceMin?: number;
+  auctionName?: string;
 }
 
 export interface HomeData {

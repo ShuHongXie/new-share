@@ -77,3 +77,24 @@ export const sortObjectKey = (obj: sortObjectArg) => {
   }
   return returnObject;
 };
+
+/**
+ * 将数字转换成金额
+ * @param  {[string/number]} num [数字]
+ * @return {[string]}     [金额（字符串）]
+ */
+export const toMoney = (num: number | string) => {
+  if (!num) {
+    return `¥0`;
+  }
+  if (typeof num === "string") {
+    num = num.slice(1).split(",").join("");
+  }
+  num = (num as number).toFixed(2);
+  num = parseFloat(num);
+  const regForm = /(\d{1,3})(?=(\d{3})+(?:$|\.))/g;
+  num = num.toString().replace(regForm, "$1,");
+  // num = num.toLocaleString()
+
+  return `¥${num}`;
+};
