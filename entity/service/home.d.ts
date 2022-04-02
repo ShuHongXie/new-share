@@ -68,7 +68,7 @@ export interface RecommendGood {
   pawnDate?: number;
   watchMaterial?: number;
   subStatus?: number;
-  tags?: null;
+  tags?: any;
   inCase?: number;
   qualityName?: string;
   watchModuleName?: string;
@@ -117,6 +117,7 @@ export interface RecommendGood {
   orderCode?: number;
   goodsTitle?: string;
   suitableCrowdName?: string;
+  priceMin?: number;
 }
 
 export interface HomeData {
