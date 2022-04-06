@@ -20,133 +20,48 @@ import {
 } from "@/service/home";
 
 import style from "./index.module.scss";
-import {
-  PlaceholderItem,
-  Content,
-  RecommendGood,
-} from "@/entity/service/home.d";
 
 import { PaginationProps } from "@/entity/config/props";
 
-import Tabbar from "@/components/modules/Tabbar";
-import HomeHeader from "./modules/HomeHeader";
-import HomeBanner from "./modules/HomeBanner";
-import HomeAdvert from "./modules/HomeAdvert";
-import HomeNavigation from "./modules/HomeNavigation";
-import HomeKeyword from "./modules/HomeKeyword";
-import HomeToolbar from "./modules/HomeToolbar";
-import ListTitle from "@/components/modules/Card/ListTitle";
 import List from "@/components/common/List";
 import Good from "@/components/modules/Panel/Good";
+import SearchBar from "@/components/common/SearchBar";
 
 type Params = PaginationProps<{
   page: number;
   size: number;
 }>;
 
-const Home: NextPage = ({
+const Search: NextPage = ({
   homeData,
   recommendList,
   pager,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [placeholderList, setPlaceholderList] = useState<PlaceholderItem[]>([]);
-  const [backgroundColorValue, setBackgroundColorValue] = useState("");
-  const [params, setParams] = useState<Params>({
-    pagination: {
-      page: 1,
-      size: 10,
-    },
-    status: "LOAD",
-    total: 10,
-  });
+  // const [placeholderList, setPlaceholderList] = useState<PlaceholderItem[]>([]);
+  // const [backgroundColorValue, setBackgroundColorValue] = useState("");
+  // const [params, setParams] = useState<Params>({
+  //   pagination: {
+  //     page: 1,
+  //     size: 10,
+  //   },
+  //   status: "LOAD",
+  //   total: 10,
+  // });
 
-  console.log("------------重新渲染", placeholderList, homeData);
+  console.log("------------重新渲染");
 
   useEffect(() => {
     console.log(recommendList);
 
-    // 获取搜索栏placeholder列表
-    (async () => {
-      const data = await getRecommendTag({
-        moduleCode: 0,
-        configType: 11,
-      });
-      setPlaceholderList(data);
-      // 初始化背景颜色
-      setBackgroundColorValue(
-        homeData.content[0].data.itemList
-          ? homeData.content[0].data.itemList[0].bgColor
-          : ""
-      );
-    })();
-
     // useEffect(() => {}, []);
   }, []);
-
-  const handleLink = useCallback(() => {}, []);
-  const swiperChange = useCallback(() => {}, []);
 
   return (
     <div>
       <Head>
-        <title>万表二手表</title>
+        <title>搜索商品</title>
       </Head>
-      <div className={style["home"]}>
-        <HomeHeader
-          searchPlaceholder={placeholderList}
-          backgroundColorValue={backgroundColorValue}
-          bgImageUrl={homeData?.bgImageUrl}
-        ></HomeHeader>
-        {homeData.content.map((item: Content, index: number) => (
-          <section
-            key={index}
-            className={[
-              style["home-section"],
-              [1].includes(item.type as number) ? style["bg"] : "",
-            ].join(" ")}
-          >
-            {/* 轮播区域 */}
-            {item.type === 1 && (
-              <HomeBanner
-                data={item.data!.itemList}
-                code={item.code}
-                isBackground={index < 3 && !homeData.bgImageUrl}
-                handleLink={handleLink}
-                swiperChange={swiperChange}
-              />
-            )}
-            {/* 广告区域 */}
-            {item.type === 2 && <HomeAdvert data={item.data} />}
-            {/* 导航栏入口区域 */}
-            {item.type === 11 && <HomeNavigation data={item.data} />}
-            {/* 快速查表区域 */}
-            {item.type === 17 && <HomeKeyword data={item.data} />}
-            {/* 图标标识区域 */}
-            {item.type === 12 && <HomeToolbar data={item.data} />}
-          </section>
-        ))}
-        {/* 为你推荐 */}
-        <ListTitle
-          title="为您推荐"
-          subTitle="RECOMMENDED FOR YOU"
-          customClass={style["home-list-title"]}
-        />
-        {/* 底部商品列表 */}
-        <List total={pager.total} status={params.status}>
-          <>
-            {recommendList.map((item: RecommendGood) => (
-              <Good
-                key={item.shareCode}
-                data={item}
-                path={`/share/${item.shareCode}.html`}
-                type="danger"
-                scene="list"
-              />
-            ))}
-          </>
-        </List>
-        <Tabbar active="首页" />
-      </div>
+      <div className={style["search"]}></div>
     </div>
   );
 };
@@ -179,4 +94,4 @@ export const getServerSideProps: GetServerSideProps = async (
   return { props: { homeData, recommendList, pager } };
 };
 
-export default Home;
+export default Search;
