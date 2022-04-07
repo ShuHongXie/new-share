@@ -4,7 +4,7 @@
  * @param {(Document | Element)} el
  * @return {*}
  */
-const getScrollTop = (el: Document | Element) => {
+export const getScrollTop = (el: Document | Element) => {
   if (el === document || el === document.body) {
     return Math.max(
       window.pageYOffset,
@@ -32,7 +32,7 @@ export const getScrollHeight = (el: Document | Element) => {
  * @param {(Document | Element)} el
  * @return {*}
  */
-const getClientHeight = (el: Document | Element) => {
+export const getClientHeight = (el: Document | Element) => {
   return (
     (el as Element).clientHeight ||
     Math.max(document.documentElement.clientHeight, document.body.clientHeight)

@@ -36,7 +36,6 @@ const Tag: FC<TagProps> = memo(
         radius ? style['"is-radius'] : "",
       ];
     });
-    console.log(tagClass, bold, size);
 
     const tagStyle = () => {
       return Object.assign({}, customStyle);
