@@ -62,9 +62,7 @@ const Home: NextPage = ({
   });
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  typeof window !== `undefined` && useScrollBottom({
-    method: 
-  });
+  typeof window !== `undefined` && useScrollBottom();
   console.log("------------重新渲染", placeholderList, homeData);
 
   useEffect(() => {
