@@ -4,17 +4,22 @@ type ThrottleProps = {
 };
 
 export default function useThrottle({ fn, time = 3000 }: ThrottleProps) {
-  const prevTime = new Date().getTime();
+  let prevTime: number = new Date().getTime();
   let timer: any;
   return function () {
-    let currentTime = new Date().getTime();
+    // @ts-ignore
+    const context = this;
+    const args = arguments;
+    let currentTime: number = new Date().getTime();
     if (prevTime + time >= currentTime) {
-      fn();
-      // timer = setTimeout(() => {
-      //   fn;
-      // }, time);
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        prevTime = currentTime;
+        fn.apply(context, args);
+      }, time);
     } else {
-      currentTime = prevTime + time;
+      prevTime = currentTime;
+      fn.apply(context, args);
     }
   };
 }
