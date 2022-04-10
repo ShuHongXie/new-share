@@ -71,7 +71,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const handleEvokeApp = () => {};
   return (
     <>
-      {canEvoke && topImageUrl && showTop ? (
+      {/* {canEvoke && topImageUrl && showTop ? (
         <HeadDownloadAppTip
           isFixedTopImage={isFixedTopImage}
           topImageUrl={topImageUrl}
@@ -80,7 +80,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         />
       ) : (
         ""
-      )}
+      )} */}
       <main>{children}</main>
       {/* {canEvoke && fixedImageUrl ? (
         <FooterOpenAppTip

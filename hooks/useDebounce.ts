@@ -6,15 +6,21 @@ type DebounceProps = {
 };
 
 export default function useDebounce({ fn, time = 1000 }: DebounceProps) {
-  const r = useRef();
-  let timer: any;
+  let timer: any = useRef(null);
   return function () {
     // @ts-ignore
     const context = this;
     const args = arguments;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
       fn.apply(context, args);
     }, time);
+    // clearTimeout(timer);
+    // timer = setTimeout(() => {
+    //   console.log("执行", timer);
+
+    //   fn.apply(context, args);
+    // }, time);
+    console.log(timer);
   };
 }
