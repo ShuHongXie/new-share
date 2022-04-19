@@ -67,7 +67,7 @@ const Good: FC<HomeAdvertProps> = memo(
             <WbImage src={adInfo[goodsIndex / 6 - 1].imageUrl}></WbImage>
           </div>
         )}
-        <Link href={path}>
+        <Link href={path} passHref>
           <div className={style["good__wrapper"]}>
             <div className={style["good__cover"]}>
               {/* 图片  */}
@@ -187,7 +187,7 @@ const Good: FC<HomeAdvertProps> = memo(
                       <p className={style["good__content--auctionPrice"]}>
                         {data.priceMax
                           ? filterToMoney(data.priceMax)
-                          : filterToMoney(data.priceMin)}
+                          : filterToMoney(data.priceMin as number)}
                       </p>
                     )}
                   </div>

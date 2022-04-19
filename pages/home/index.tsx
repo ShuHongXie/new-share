@@ -12,7 +12,7 @@ import type {
   InferGetServerSidePropsType,
 } from "next";
 import Head from "next/head";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   getHomeDataNew,
   getRecommendTag,
@@ -61,9 +61,9 @@ const Home: NextPage = ({
     total: 10,
   });
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  typeof window !== `undefined` && useScrollBottom();
-  console.log("------------重新渲染", placeholderList, homeData);
+  const getRecommendList = useCallback(() => {
+    console.log("获取-----------------------");
+  }, []);
 
   useEffect(() => {
     console.log(recommendList);
@@ -82,6 +82,29 @@ const Home: NextPage = ({
       );
     })();
   }, []);
+
+  useEffect(() => {
+    console.log("-----------依赖的key变化");
+
+    getRecommendList();
+  }, [params.pagination.size]);
+
+  typeof window !== `undefined` &&
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useScrollBottom({
+      scrollBottomDir: 30,
+      executeArriveFn: () => {
+        setParams((params) => {
+          console.log("调用了", params.pagination.page);
+          return Object.assign({}, params, {
+            pagination: {
+              ...params.pagination,
+              page: (params.pagination.page += 1),
+            },
+          });
+        });
+      },
+    });
 
   const handleLink = useCallback(() => {}, []);
   const swiperChange = useCallback(() => {}, []);

@@ -47,7 +47,7 @@ const List: FC<ListProps> = ({
         )}
       </div>
     );
-  console.log(children);
+  // console.log(children);
 
   const contentArea = () => total && children;
 
