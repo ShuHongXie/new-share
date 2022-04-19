@@ -85,9 +85,8 @@ const Home: NextPage = ({
 
   useEffect(() => {
     console.log("-----------依赖的key变化");
-
     getRecommendList();
-  }, [params.pagination.size]);
+  }, [params.pagination.page]);
 
   typeof window !== `undefined` &&
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -96,12 +95,13 @@ const Home: NextPage = ({
       executeArriveFn: () => {
         setParams((params) => {
           console.log("调用了", params.pagination.page);
-          return Object.assign({}, params, {
+          return {
+            ...params,
             pagination: {
               ...params.pagination,
               page: (params.pagination.page += 1),
             },
-          });
+          };
         });
       },
     });
