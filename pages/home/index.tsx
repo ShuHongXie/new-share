@@ -39,6 +39,7 @@ import HomeToolbar from "./modules/HomeToolbar";
 import ListTitle from "@/components/modules/Card/ListTitle";
 import List from "@/components/common/List";
 import Good from "@/components/modules/Panel/Good";
+import { useSetRecoilState } from "recoil";
 
 const Home: NextPage = ({
   homeData,
@@ -52,10 +53,10 @@ const Home: NextPage = ({
   // 请求逻辑聚合
   const [Pagination, setPagination] = useState<PaginationProps>();
   const [params, setParams] = useState<PaginationProps>({
-    page: 1,
+    page: 0,
     size: 10,
     status: "LOAD",
-    total: 10,
+    total: pager.total,
   });
 
   const getRecommendList = useCallback(async () => {
@@ -65,18 +66,32 @@ const Home: NextPage = ({
     });
     try {
       const { page, size } = params;
-      const { list: recommendList, pager } = await getHomeRecommendList({
+      console.log(page);
+      const { list: recommendList = [], pager } = await getHomeRecommendList({
         page,
         size,
       });
+      // 列表赋值
       setList((list: RecommendGood[]) => [...list, ...recommendList]);
+      // 状态赋值
+      setParams((params) =>
+        Object.assign({}, params, {
+          status:
+            list.length === params.size
+              ? "WAIT"
+              : !list.length && params.page === 0
+              ? "END"
+              : "NO_MORE",
+          total: pager ? pager.total : 0,
+        })
+      );
       console.log(recommendList);
     } catch (e) {
       setParams((params) => {
         return { ...params, status: "ERROR" };
       });
     }
-  }, []);
+  }, [params.page]);
 
   useEffect(() => {
     console.log(recommendList);
@@ -97,8 +112,8 @@ const Home: NextPage = ({
   }, []);
 
   useEffect(() => {
-    console.log("-----------依赖的key变化");
-    if (params.page !== 1) {
+    console.log("-----------依赖的key变化", params.page);
+    if (params.page !== 0) {
       getRecommendList();
     }
   }, [params.page]);
@@ -110,10 +125,7 @@ const Home: NextPage = ({
       executeArriveFn: () => {
         setParams((params) => {
           console.log("调用了", params.page);
-          return {
-            ...params,
-            page: ++params.page,
-          };
+          return Object.assign({}, params, { page: ++params.page });
         });
       },
       loading: ["LOAD", "WAIT"].includes(params.status),
@@ -125,9 +137,9 @@ const Home: NextPage = ({
   const listChild = useMemo(
     () => (
       <>
-        {list.map((item: RecommendGood) => (
+        {list.map((item: RecommendGood, index: number) => (
           <Good
-            key={item.shareCode}
+            key={index}
             data={item}
             path={`/share/${item.shareCode}.html`}
             type="danger"
@@ -178,7 +190,10 @@ const Home: NextPage = ({
             {item.type === 12 && <HomeToolbar data={item.data} />}
           </section>
         ))}
-        <div onClick={() => setCount((x) => (x += 1))}>{count}</div>
+        <div onClick={() => setCount((x) => (x += 1))}>
+          {count}
+          {params.total}
+        </div>
         {/* 为你推荐 */}
         <ListTitle
           title="为您推荐"
@@ -188,17 +203,6 @@ const Home: NextPage = ({
         {/* 底部商品列表 */}
         <List total={pager.total} status={params.status}>
           {listChild}
-          {/* <>
-            {list.map((item: RecommendGood) => (
-              <Good
-                key={item.shareCode}
-                data={item}
-                path={`/share/${item.shareCode}.html`}
-                type="danger"
-                scene="list"
-              />
-            ))}
-          </> */}
         </List>
         <Tabbar active="首页" />
       </div>

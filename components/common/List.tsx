@@ -54,7 +54,10 @@ const List: FC<ListProps> = memo(
     const loadArea = () =>
       (status === "LOAD" || status === "NO_MORE") && (
         <div className={style["list-loading"]}>
-          <LoadMore loaded={status === "NO_MORE"} loadedText="没有更多了哦~ " />
+          <LoadMore
+            loaded={status === "NO_MORE"}
+            loadedText={status === "NO_MORE" ? "" : "没有更多了哦~ "}
+          />
         </div>
       );
 

@@ -11,13 +11,13 @@ type LoadMoreProps = {
 };
 
 const LoadMore: FC<LoadMoreProps> = ({
-  loadingText = "加载中...",
+  loadingText = "加载中",
   loaded,
   loadedText,
 }) => {
   return (
     <div className={style["load-more"]}>
-      {loaded ? (
+      {!loaded ? (
         <div className={style["load-more__loading"]}>
           <span>{loadingText}</span>
           <DotLoading color="currentColor" />

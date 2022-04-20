@@ -3,6 +3,7 @@
   padding-bottom: 50px;
   position: relative;
   z-index: 2;
+  min-height: calc(100vh - 50px);
   &-list-title {
     margin: 16px 0;
   }

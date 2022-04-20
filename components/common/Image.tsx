@@ -12,6 +12,7 @@ import config from "@/config/index";
 const ORIGIN = getConstByEnv(config.OSS);
 
 import style from "./Image.module.scss";
+import { useState } from "react";
 
 export type Origin = {
   aliyuncs: string;
@@ -53,12 +54,16 @@ const WbImage = ({
   originType = "aliyuncs",
   onClick,
 }: ImageParam) => {
+  console.log("image变化----------------------------------");
+
   // 文件属性
   originType = ORIGINS[originType as keyof Origin];
   // 文件类型
   type = type === "jpg" ? "/format,jpg" : "";
   // 文件源
-  let origin = /http/i.test(src) ? "" : originType;
+  let origin = src.startsWith("http") ? "" : originType;
+  // 防止url无法解析出错
+  src = !src.startsWith("http") && !/http/i.test(src) ? src : "";
   // 后缀
   parameter = parameter ? "/resize," + parameter : "";
   parameter = parameter
@@ -67,7 +72,9 @@ const WbImage = ({
       }`
     : ``;
 
-  const imgUrl = src ? origin + src + parameter : "";
+  const [imgUrl, setImgUrl] = useState(
+    src ? origin + src + parameter : config.PIC.errorPage
+  );
 
   const imageClick = (e: React.MouseEvent<HTMLImageElement>) => {
     e.stopPropagation();
@@ -83,6 +90,7 @@ const WbImage = ({
       objectFit={objectFit}
       layout={!width && !width ? "fill" : "responsive"}
       alt=""
+      onError={() => setImgUrl(config.PIC.errorPage)}
       onClick={imageClick}
     />
   );
