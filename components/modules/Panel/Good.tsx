@@ -4,7 +4,6 @@ import WbTag from "@/components/common/Tag";
 import { RecommendGood } from "@/entity/service/home";
 
 import style from "./Good.module.scss";
-import { NavBarProps } from "antd-mobile/es/components/nav-bar";
 import Link from "next/link";
 import WbImage from "@/components/common/Image";
 import NormalImage from "@/components/common/NormalImage";
@@ -50,6 +49,8 @@ const Good: FC<HomeAdvertProps> = memo(
     showDiscount = true,
     type = "warning",
   }) => {
+    console.log("渲染了Good组件");
+
     const [goodClass, setGoodClass] = useState(`good__scene--${scene}`);
     const [goodSize, setGoodSize] = useState(() => {
       return `m_fill,w_${SIZE[scene][0] * 2},h_${

@@ -15,12 +15,6 @@ export default function useDebounce({ fn, time = 1000 }: DebounceProps) {
     timer.current = setTimeout(() => {
       fn.apply(context, args);
     }, time);
-    // clearTimeout(timer);
-    // timer = setTimeout(() => {
-    //   console.log("执行", timer);
-
-    //   fn.apply(context, args);
-    // }, time);
     console.log(timer);
   };
 }

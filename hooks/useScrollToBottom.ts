@@ -7,18 +7,26 @@ const isBrowser = typeof window !== `undefined`;
 type ScrollBottomProps = {
   target?: Document | Element; // 目标dom
   scrollBottomDir?: number; // 距离底部多少px
-  executeArriveFn: Function;
+  executeArriveFn: Function; // 触底执行函数
+  loading: boolean; // 是否在加载中
 };
 
 export default function useScrollBottom(options: ScrollBottomProps) {
   console.log("执行useScrollBottom");
 
-  const { target = document, scrollBottomDir = 20, executeArriveFn } = options;
+  const {
+    target = document,
+    scrollBottomDir = 20,
+    executeArriveFn,
+    loading,
+  } = options;
   const scrollExcuteFn = () => {
     const scrollTop = getScrollTop(target);
     const scrollHeight = getScrollHeight(target);
     const clientHeight = getClientHeight(target);
-    if (clientHeight + scrollTop >= scrollHeight - scrollBottomDir) {
+    console.log(loading);
+
+    if (clientHeight + scrollTop >= scrollHeight - scrollBottomDir && loading) {
       console.log("触底了");
       executeArriveFn();
     }

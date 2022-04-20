@@ -1,5 +1,6 @@
-export interface PaginationProps<T> {
+export interface PaginationProps {
   status: "NO_MORE" | "WAIT" | "LOAD" | "END" | "ERROR";
   total: number;
-  pagination: T;
+  page: number;
+  size: number;
 }

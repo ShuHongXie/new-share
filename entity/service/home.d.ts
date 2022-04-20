@@ -28,7 +28,7 @@ export interface PlaceholderItem {
 }
 
 export interface RecommendData {
-  list?: RecommendGood[];
+  list: RecommendGood[];
   pager?: Pager;
 }
 

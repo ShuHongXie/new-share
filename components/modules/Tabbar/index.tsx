@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-03-23 15:01:19
  * @FilePath: /new-share/components/modules/Tabbar/index.tsx
  */
-import { useEffect, useState } from "react";
+import { useEffect, memo } from "react";
 import WbImage from "@/components/common/Image";
 import style from "./index.module.scss";
 import { getSwitchTabbar } from "@/service/common";
@@ -17,7 +17,7 @@ type TabbarProps = {
   active: string;
 };
 
-const Tabbar: React.FC<TabbarProps> = ({ active }) => {
+const Tabbar: React.FC<TabbarProps> = memo(({ active }) => {
   console.log("开始渲染");
   const setTabbarMenu = useSetRecoilState(tabbarMenu);
   const menu = useRecoilValue(tabbarMenu);
@@ -59,6 +59,6 @@ const Tabbar: React.FC<TabbarProps> = ({ active }) => {
       ))}
     </div>
   );
-};
+});
 
 export default Tabbar;
