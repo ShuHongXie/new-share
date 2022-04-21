@@ -6,7 +6,7 @@ import Empty from "./Empty";
 import LoadMore from "./LoadMore";
 
 type ListProps = {
-  status: "NO_MORE" | "WAIT" | "LOAD" | "END" | "ERROR";
+  status: "NO_MORE" | "LOAD" | "END" | "ERROR";
   total: number;
   customEmpty?: boolean;
   emptyText?: string;
@@ -56,7 +56,7 @@ const List: FC<ListProps> = memo(
         <div className={style["list-loading"]}>
           <LoadMore
             loaded={status === "NO_MORE"}
-            loadedText={status === "NO_MORE" ? "" : "没有更多了哦~ "}
+            loadedText={status === "NO_MORE" ? "加载中" : "没有更多了哦~ "}
           />
         </div>
       );

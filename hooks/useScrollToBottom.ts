@@ -12,8 +12,6 @@ type ScrollBottomProps = {
 };
 
 export default function useScrollBottom(options: ScrollBottomProps) {
-  console.log("执行useScrollBottom");
-
   const {
     target = document,
     scrollBottomDir = 20,

@@ -48,25 +48,23 @@ const Home: NextPage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [placeholderList, setPlaceholderList] = useState<PlaceholderItem[]>([]);
   const [backgroundColorValue, setBackgroundColorValue] = useState("");
-  const [count, setCount] = useState(0);
   const [list, setList] = useState(recommendList);
   // 请求逻辑聚合
-  const [Pagination, setPagination] = useState<PaginationProps>();
   const [params, setParams] = useState<PaginationProps>({
     page: 0,
     size: 10,
-    status: "LOAD",
+    status: !recommendList.length
+      ? "END"
+      : recommendList.length === pager.total
+      ? "NO_MORE"
+      : "LOAD",
     total: pager.total,
   });
 
   const getRecommendList = useCallback(async () => {
     console.log("获取-----------------------");
-    setParams((params) => {
-      return { ...params, status: "LOAD" };
-    });
     try {
       const { page, size } = params;
-      console.log(page);
       const { list: recommendList = [], pager } = await getHomeRecommendList({
         page,
         size,
@@ -77,15 +75,15 @@ const Home: NextPage = ({
       setParams((params) =>
         Object.assign({}, params, {
           status:
-            list.length === params.size
-              ? "WAIT"
-              : !list.length && params.page === 0
+            recommendList.length === params.size
+              ? "LOAD"
+              : !recommendList.length && params.page === 0
               ? "END"
               : "NO_MORE",
           total: pager ? pager.total : 0,
         })
       );
-      console.log(recommendList);
+      console.log(params);
     } catch (e) {
       setParams((params) => {
         return { ...params, status: "ERROR" };
@@ -128,7 +126,7 @@ const Home: NextPage = ({
           return Object.assign({}, params, { page: ++params.page });
         });
       },
-      loading: ["LOAD", "WAIT"].includes(params.status),
+      loading: ["LOAD"].includes(params.status),
     });
 
   const handleLink = useCallback(() => {}, []);
@@ -190,10 +188,6 @@ const Home: NextPage = ({
             {item.type === 12 && <HomeToolbar data={item.data} />}
           </section>
         ))}
-        <div onClick={() => setCount((x) => (x += 1))}>
-          {count}
-          {params.total}
-        </div>
         {/* 为你推荐 */}
         <ListTitle
           title="为您推荐"
@@ -201,7 +195,7 @@ const Home: NextPage = ({
           customClass={style["home-list-title"]}
         />
         {/* 底部商品列表 */}
-        <List total={pager.total} status={params.status}>
+        <List total={params.total} status={params.status}>
           {listChild}
         </List>
         <Tabbar active="首页" />

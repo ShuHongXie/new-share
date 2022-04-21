@@ -57,7 +57,7 @@ let sources: Source = {}; // 用于储存不支持重复请求的接口的取消
 // 添加请求拦截器
 instance.interceptors.request.use(
   (options: RequestConfig): RequestConfig => {
-    console.log(options.baseURL, options.url);
+    console.log(options);
 
     const tokenId = Cookie.get(MALL_SAAS_TOKEN) || Cookie.get(TOKENID) || "";
     const wbiaoid = Cookie.get(WBIAOID) || "";
