@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "cross-env NODE_ENV=development node server/index.js",
+    "start": "PORT=4000 cross-env NODE_ENV=development node server/index.js",
     "lint": "next lint"
   },
   "dependencies": {
