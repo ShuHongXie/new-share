@@ -14,12 +14,13 @@ import { Brand } from "@/entity/service/brand.d";
 type SearchProps = {
   data?: Data;
   showResult: boolean;
+  hotSearchList: string[];
 };
 
 type Comprehensive = {
-  searchVal?: string;
+  searchVal?: string | undefined;
   seriesCode?: number;
-  brandCode?: string | number;
+  brandCode?: string | number | undefined;
   priceMin?: number;
   priceMax?: number;
 };
@@ -27,59 +28,124 @@ type Comprehensive = {
 const matchingQueryForShowResult = (query: { [key: string]: any }) =>
   !!(Object.keys(query).length && query.w);
 
-const Search: FC<SearchProps> = memo(({ showResult }) => {
+const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
   const [showList, setShowList] = useState(showResult); // 是否展示结果
   const [seriesList, setSeriesList] = useState<Brand[]>([]); // 型号列表
   const [goodList, setGoodList] = useState([]); // 商品列表
   const [comprehensive, setComprehensive] = useState<Comprehensive>({});
+  const [searchNoVal, setSearchNoVal] = useState(false);
+  const [dropdownFilterActive, setDropdownFilterActive] = useState(false);
+  const [shopCode, setShopCode] = useState("");
   const router = useRouter();
   console.log(router);
 
   useEffect(() => {
+    console.log("加载", showList);
+
     if (showList) {
       setSeriesList([]);
       setGoodList([]);
       // 从url上获取参数
-      const { w, brandName, b, ev, seriesCode, tagName } = router.query;
+      const {
+        w,
+        brandName,
+        b = "",
+        ev,
+        seriesCode,
+        tagName,
+        ap,
+      } = router.query;
       // 加载系列
-      const list = (async () => {
-        return await listBrandSeriesByBrand({
+      const getBrand = async () => {
+        const list = await listBrandSeriesByBrand({
           brandCode: b,
           keyword: w,
           seriesCode,
         });
-      })();
+        console.log(list);
+
+        setSeriesList(list);
+      };
+      getBrand();
+      console.log("------------------");
 
       if (seriesCode) {
-        setComprehensive(prev => ({...prev, seriesCode: Number(seriesCode) }) 
+        setComprehensive((prev) => ({
+          ...prev,
+          seriesCode: Number(seriesCode),
+        }));
       }
-      setSeriesList(list);
+      // setSeriesList(() => list);
       // 设置关键字
-      setComprehensive(obj => Object.assign({}, obj,  { searchVal: w || tagName || brandName,brandCode:b }) 
+      setComprehensive((prev) => ({
+        ...prev,
+        searchVal: (w || tagName || brandName) as string,
+        brandCode: b as string,
+      }));
       // 带着价格区间过来
       if (router.query.ap) {
-        const price = router.query.ap?.split("-");
-        setComprehensive(prev => ({...prev,  priceMin:Number(price[0]), priceMax: Number(price[1])}) 
-        dropdownFilterActive = true;
-        priceSortShow();
+        const price = (router.query.ap as string).split("-");
+        setComprehensive((prev) => ({
+          ...prev,
+          priceMin: Number(price[0]),
+          priceMax: Number(price[1]),
+        }));
+        // dropdownFilterActive = true;
+        setDropdownFilterActive(false);
+        // priceSortShow();
       }
       if (w === "") {
-        this.searchNoVal = false;
+        setSearchNoVal(false);
+        // searchNoVal = false;
       }
       // 获取分页结果
-      this.dropPagination = mergeDeep({}, this.dropPagination, {
-        now: 0,
-        kw: tagName || w || "",
-        //  时间戳
-        qpt: new Date().getTime(),
-        bs: this.$route.query.seriesCode || "",
-        et: this.moduleCodeType,
-        b: b,
-        ap: this.$route.query.ap ? this.$route.query.ap : "",
-        sc: this.$route.query.shopCode ? this.$route.query.shopCode : "",
-      });
+      // this.dropPagination = mergeDeep({}, this.dropPagination, {
+      //   now: 0,
+      //   kw: tagName || w || "",
+      //   //  时间戳
+      //   qpt: new Date().getTime(),
+      //   bs: this.$route.query.seriesCode || "",
+      //   et: this.moduleCodeType,
+      //   b: b,
+      //   ap: this.$route.query.ap ? this.$route.query.ap : "",
+      //   sc: this.$route.query.shopCode ? this.$route.query.shopCode : "",
+      // });
     }
   }, [router.query]);
+
+  // 设置历史记录
+  const setHistory = () => {
+    const _cache = localStorage.getItem("searchList"); // 历史记录
+    const { searchVal } = comprehensive;
+    // 放进历史记录
+    const searchList = _cache ? JSON.parse(_cache) : [];
+    searchList.unshift(searchVal);
+    localStorage.setItem(
+      "searchList",
+      JSON.stringify([...new Set(searchList)])
+    );
+  };
+
+  // 点击历史或者热门标签搜索
+  const selectTag = (item) => {
+    setComprehensive((prev) => ({
+      ...prev,
+      searchVal: item,
+    }));
+    setShowList(true);
+    setHistory();
+    const queryTemp = {
+      w: comprehensive.searchVal,
+    };
+    if (shopCode) {
+      queryTemp.shopCode = this.shopCode;
+    }
+    router.push({
+      path: "/views/search",
+      query: queryTemp,
+    });
+    this.shopCode = "";
+  };
 
   return (
     <div className={style["search"]}>
@@ -134,19 +200,9 @@ export const getServerSideProps: GetServerSideProps = async (
     },
     context
   );
-  console.log(hotSearchList);
 
-  const showResult = matchingQueryForShowResult(context);
-  // 分页列表
-  // const pagination = {
-  //   page: 0,
-  //   size: 10,
-  // };
-  // const { list: recommendList, pager } = await getHomeRecommendList(
-  //   pagination,
-  //   context
-  // );
-  // console.log(pager);
+  const showResult = matchingQueryForShowResult(context.query);
+  console.log(hotSearchList, showResult);
   return { props: { hotSearchList, showResult } };
 };
 
