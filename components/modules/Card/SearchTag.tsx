@@ -37,7 +37,7 @@ const SearchTag: FC<SearchTagProps> = memo(
     // 主区域内容
     const content = tagList.length ? (
       <div className={style["searchTag"]}>
-        <p className={style["searchTag--title"]}>{{ title }}</p>
+        <p className={style["searchTag--title"]}>{title}</p>
         {tagList.map((item, index) => (
           <span
             key={index}

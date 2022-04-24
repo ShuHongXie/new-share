@@ -13,6 +13,7 @@ import WbIcon from "@/components/common/Icon";
 import SearchBar from "@/components/common/SearchBar";
 
 import { PlaceholderItem } from "@/entity/service/home.d";
+import { useRouter } from "next/router";
 
 type HomeHeaderProps = {
   searchPlaceholder: PlaceholderItem[];
@@ -24,6 +25,14 @@ type HomeHeaderProps = {
 const HomeHeader: FC<HomeHeaderProps> = memo(
   ({ searchPlaceholder, bgImageUrl, backgroundColorValue }) => {
     console.log("homeheader渲染");
+    const router = useRouter();
+
+    // 跳转搜索
+    const handleSearch = () => {
+      router.push({
+        pathname: "/search",
+      });
+    };
 
     return (
       <div className={style["home-header"]}>
@@ -38,6 +47,7 @@ const HomeHeader: FC<HomeHeaderProps> = memo(
             placeholderList={searchPlaceholder}
             onlyClick
             isSwiper
+            click={handleSearch}
           ></SearchBar>
           <WbIcon
             icon="icon-icon_iOS_msg"

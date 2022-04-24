@@ -46,7 +46,6 @@ const Tag: FC<TagProps> = memo(
         {showAuctionIcon && (
           <WbIcon icon="icon-chuizi" customClass={style["tag-icon"]} />
         )}
-
         <span>{data}</span>
       </div>
     );

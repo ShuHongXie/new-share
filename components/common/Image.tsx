@@ -58,12 +58,16 @@ const WbImage = ({
 
   // 文件属性
   originType = ORIGINS[originType as keyof Origin];
+  console.log(ORIGINS, originType);
+
   // 文件类型
   type = type === "jpg" ? "/format,jpg" : "";
   // 文件源
   let origin = src.startsWith("http") ? "" : originType;
   // 防止url无法解析出错
   src = !src.startsWith("http") && !/http/i.test(src) ? src : "";
+  console.log(src, origin);
+
   // 后缀
   parameter = parameter ? "/resize," + parameter : "";
   parameter = parameter

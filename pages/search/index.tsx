@@ -10,6 +10,7 @@ import { getSearhKeyInfo } from "@/service/search";
 import SearchTag from "@/components/modules/Card/SearchTag";
 import { listBrandSeriesByBrand } from "@/service/brand";
 import { Brand } from "@/entity/service/brand.d";
+import { Toast } from "antd-mobile";
 
 type SearchProps = {
   data?: Data;
@@ -35,7 +36,9 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
   const [comprehensive, setComprehensive] = useState<Comprehensive>({});
   const [searchNoVal, setSearchNoVal] = useState(false);
   const [dropdownFilterActive, setDropdownFilterActive] = useState(false);
-  const [shopCode, setShopCode] = useState("");
+  const [shopCode, setShopCode] = useState(""); // 店铺号
+  const [historySearchList, setHistorySearchList] = useState<string[]>([]);
+  const [placeholder, setPlaceholder] = useState("");
   const router = useRouter();
   console.log(router);
 
@@ -63,7 +66,6 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
           seriesCode,
         });
         console.log(list);
-
         setSeriesList(list);
       };
       getBrand();
@@ -75,7 +77,6 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
           seriesCode: Number(seriesCode),
         }));
       }
-      // setSeriesList(() => list);
       // 设置关键字
       setComprehensive((prev) => ({
         ...prev,
@@ -99,19 +100,92 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
         // searchNoVal = false;
       }
       // 获取分页结果
-      // this.dropPagination = mergeDeep({}, this.dropPagination, {
+      // dropPagination = mergeDeep({}, dropPagination, {
       //   now: 0,
       //   kw: tagName || w || "",
       //   //  时间戳
       //   qpt: new Date().getTime(),
-      //   bs: this.$route.query.seriesCode || "",
-      //   et: this.moduleCodeType,
+      //   bs: router.query.seriesCode || "",
+      //   et: moduleCodeType,
       //   b: b,
-      //   ap: this.$route.query.ap ? this.$route.query.ap : "",
-      //   sc: this.$route.query.shopCode ? this.$route.query.shopCode : "",
+      //   ap: router.query.ap ? router.query.ap : "",
+      //   sc: router.query.shopCode ? router.query.shopCode : "",
       // });
+    } else {
+      // 店铺搜索逻辑，暂时不写
     }
   }, [router.query]);
+
+  // 搜索
+  const handleSearch = () => {
+    setSearchNoVal(true);
+    setHistory();
+    // 如果没有关键字的情况
+    if (!comprehensive.searchVal) {
+      if (!setPlaceholder) {
+        // 1. 如果没有placeholder提示
+        Toast.show("请输入品牌/型号/编号");
+        return;
+      } else {
+        // 2. 如果有placeholder
+        setComprehensive((prev) => ({ ...prev, searchVal: placeholder }));
+        //comprehensive.searchVal = Search.placeholder;
+      }
+    }
+    const pathTemp: any = {
+      path: "/search",
+      query: { w: comprehensive.searchVal },
+    };
+    // 当有店铺号的时候表示在店铺里面搜索的
+    if (
+      router.query.shopCode ||
+      parseInt(router.query.shopCode as string) === 0
+    ) {
+      pathTemp.query.shopCode = router.query.shopCode;
+      setShopCode(router.query.shopCode as string);
+    }
+    // 跳去搜索
+    router.push(pathTemp);
+    setShowList(true);
+  };
+
+  // 获取搜索历史列表
+  const getHistory = () => {
+    const historySearchList = localStorage.getItem("searchList")
+      ? JSON.parse(localStorage.getItem("searchList") || "")
+      : [];
+    setHistorySearchList(historySearchList);
+  };
+
+  const handleClickSearch = () => {
+    // this.List.filter = [];
+    setShowList(false);
+    getHistory();
+    setShopCode((router.query.shopCode as string) || "");
+  };
+
+  // 清空输入框
+  const handleClearSearch = () => {
+    // this.List.filter = []
+    let pathTemp: any = {
+      pathname: "/search",
+      query: {},
+    };
+    if (
+      router.query.shopCode ||
+      parseInt(router.query.shopCode as string) === 0
+    ) {
+      pathTemp.query.shopCode = router.query.shopCode;
+      setShopCode((router.query.shopCode as string) || "");
+    }
+    router.push(pathTemp);
+  };
+
+  // 删除历史搜索
+  const deleteTag = () => {
+    localStorage.removeItem("searchList");
+    setHistorySearchList([]);
+  };
 
   // 设置历史记录
   const setHistory = () => {
@@ -127,57 +201,60 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
   };
 
   // 点击历史或者热门标签搜索
-  const selectTag = (item) => {
+  const selectTag = (tag: string) => {
     setComprehensive((prev) => ({
       ...prev,
-      searchVal: item,
+      searchVal: tag,
     }));
     setShowList(true);
     setHistory();
     const queryTemp = {
       w: comprehensive.searchVal,
+      shopCode: "",
     };
     if (shopCode) {
-      queryTemp.shopCode = this.shopCode;
+      queryTemp.shopCode = shopCode;
     }
     router.push({
-      path: "/views/search",
+      pathname: "/search",
       query: queryTemp,
     });
-    this.shopCode = "";
+    setShopCode("");
   };
 
   return (
     <div className={style["search"]}>
       {/* 搜索框 */}
-      {/* <SearchBar
+      <SearchBar
         search={handleSearch}
         clear={handleClearSearch}
         click={handleClickSearch}
-        backEvent={handleClickSearch}
-        placeholder={Search.placeholder}
-        v-model="comprehensive.searchVal"
-        showCancel={false}
+        backEventMethod={handleClickSearch}
+        placeholder={placeholder}
+        value={comprehensive.searchVal}
         onlyClick={!!showResult}
         focus={!showResult}
         showSearch={!showResult}
         searchNoVal={searchNoVal}
         back-event={showResult && shopCode}
-        class="search__inner"
         haveBack
-      ></SearchBar> */}
-      {showResult ? (
+      ></SearchBar>
+      {!showResult ? (
         <>
-          <SearchTag
-            tagList={shopSearchList}
-            selectTag={selectTag}
-            title="店内热搜"
-          ></SearchTag>
           <SearchTag
             tagList={hotSearchList}
             selectTag={selectTag}
             title="热门搜索"
           ></SearchTag>
+          {!shopCode && (
+            <SearchTag
+              tagList={historySearchList}
+              deleteTag={deleteTag}
+              selectTag={selectTag}
+              title="历史搜索"
+              show-delete
+            ></SearchTag>
+          )}
         </>
       ) : (
         <></>

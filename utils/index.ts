@@ -7,6 +7,13 @@
  */
 import { sortObjectArg } from "./index.d";
 /**
+ * 判断是否是对象
+ *
+ * @param {*} object
+ */
+export const isObject = (object: any) => typeof object === "object";
+
+/**
  * 获取当前ip地址的二级域名
  *
  * @param {{ host?: string }} [{ host }={}]
@@ -32,15 +39,15 @@ export const getCookieDomain = ({ host }: { host?: string } = {}) => {
 
 /**
  * 获取不同环境下变量
- * @param {*} obj
+ * @param {*} object
  * @return {*}
  */
-export const getConstByEnv = (obj: any) => {
-  if (Object.prototype.toString.call(obj) !== "[object Object]") {
+export const getConstByEnv = (object: any) => {
+  if (Object.prototype.toString.call(object) !== "[object Object]") {
     return;
   }
   const isProduction = process.env.NODE_ENV === "production";
-  return isProduction ? obj.development : obj.development;
+  return isProduction ? object.development : object.development;
 };
 
 /**
@@ -67,13 +74,13 @@ export const uuid = () => {
 
 /**
  * key名称按顺序重排
- * @param {{ [name: string]: unknown }} obj
+ * @param {{ [name: string]: unknown }} object
  */
-export const sortObjectKey = (obj: sortObjectArg) => {
-  const entryObject = Object.keys(obj);
+export const sortObjectKey = (object: sortObjectArg) => {
+  const entryObject = Object.keys(object);
   const returnObject: sortObjectArg = {};
   for (const key of entryObject) {
-    returnObject[key] = obj[key];
+    returnObject[key] = object[key];
   }
   return returnObject;
 };
@@ -97,4 +104,19 @@ export const toMoney = (num: number | string) => {
   // num = num.toLocaleString()
 
   return `¥${num}`;
+};
+
+/**
+ * 对象深拷贝
+ *
+ * @param {*} object
+ * @return {*}
+ */
+const deep = (object: any) => {
+  if (!isObject(object) && !Array.isArray(object)) return object;
+  let data: { [key: string | number]: any } = isObject(object) ? {} : [];
+  for (const key in object) {
+    data[key] = isObject(object) ? deep(object[key]) : object[key];
+  }
+  return data;
 };
