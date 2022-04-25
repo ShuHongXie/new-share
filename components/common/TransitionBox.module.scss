@@ -1,0 +1,8 @@
+.transition-box {
+  display: flex;
+  &__item {
+    &--vertical {
+      flex-direction: column;
+    }
+  }
+}

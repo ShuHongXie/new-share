@@ -86,17 +86,19 @@ const WbImage = ({
   };
 
   return (
-    <Image
-      className={[style.wbImage, className].join(" ")}
-      src={imgUrl}
-      width={width}
-      height={height}
-      objectFit={objectFit}
-      layout={!width && !width ? "fill" : "responsive"}
-      alt=""
-      onError={() => setImgUrl(config.PIC.errorPage)}
-      onClick={imageClick}
-    />
+    <div>
+      <Image
+        className={[style.wbImage, className].join(" ")}
+        src={imgUrl}
+        width={width}
+        height={height}
+        objectFit={objectFit}
+        layout={!width && !width ? "fill" : "responsive"}
+        alt=""
+        onError={() => setImgUrl(config.PIC.errorPage)}
+        onClick={imageClick}
+      />
+    </div>
   );
 };
 

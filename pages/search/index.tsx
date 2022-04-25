@@ -18,6 +18,8 @@ import SearchTag from "@/components/modules/Card/SearchTag";
 import { listBrandSeriesByBrand } from "@/service/brand";
 import { Brand } from "@/entity/service/brand.d";
 import { NoticeBar, Toast } from "antd-mobile";
+import TransitionBox from "@/components/common/TransitionBox";
+import GoodSeries from "@/components/modules/Card/GoodSeries";
 
 type SearchProps = {
   data?: Data;
@@ -281,6 +283,7 @@ const Search: FC<SearchProps> = memo(({ hotSearchList }) => {
         </>
       ) : (
         <>
+          {/* 推荐提示 */}
           {isShowDesc && (
             <NoticeBar
               content={`为您推荐"闲置${recommendText}"表款,万表检测出证，假一赔三。`}
@@ -290,6 +293,17 @@ const Search: FC<SearchProps> = memo(({ hotSearchList }) => {
               style={{ "--font-size": "12px" }}
             />
           )}
+          {/* 品牌选择 */}
+          <TransitionBox data={seriesList}>
+            {seriesList.map((item, index) => (
+              <GoodSeries
+                key={index}
+                data={item}
+                value={comprehensive.seriesCode}
+                activeKey={"seriesCode"}
+              />
+            ))}
+          </TransitionBox>
         </>
       )}
     </div>
