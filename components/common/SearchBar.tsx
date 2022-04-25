@@ -1,6 +1,6 @@
 import { Swiper } from "antd-mobile";
 import { useRouter } from "next/router";
-import React, { FC, useState, memo, useEffect, useCallback } from "react";
+import React, { FC, useState, memo, useEffect, useRef } from "react";
 import WbIcon from "./Icon";
 import style from "./SearchBar.module.scss";
 
@@ -23,6 +23,7 @@ export type SearchBarProps = {
   backEventMethod?: () => void;
   search?: (value: string) => void;
   click?: (value?: string) => void;
+  change?: (value?: string) => void;
   clear?: () => void;
 };
 
@@ -34,7 +35,7 @@ const SearchBar: FC<SearchBarProps> = memo(
     focus = false,
     onlyClick = false,
     value = "",
-    showClear = "",
+    showClear = true,
     radius = false,
     size = "default",
     showSearch = false,
@@ -47,81 +48,36 @@ const SearchBar: FC<SearchBarProps> = memo(
     clear,
     input,
     click,
+    change,
   }) => {
     console.log("searchbar组件渲染");
-    const [inputValue, setInputValue] = useState(value);
+    const inputValue = useRef(value);
     const [tipText, setTipText] = useState("");
     const router = useRouter();
 
     useEffect(() => {
       // 提示文本
       if (searchNoVal) {
-        setTipText(!value ? placeholder : value);
+        inputValue.current = value;
+        setTipText(!inputValue.current ? placeholder : inputValue.current);
       }
-    }, []);
-
-    const backIcon = () =>
-      haveBack ? (
-        <WbIcon
-          icon="icon-xiangzuojiantou"
-          customClass={style["searchbar__back"]}
-          size={18}
-          onClick={handleBack}
-        />
-      ) : (
-        ""
-      );
-
-    const tipTextBlock = () =>
-      onlyClick && !isSwiper ? (
-        <span className={style.searchbarTip}>{tipText}</span>
-      ) : (
-        ""
-      );
-
-    const verticalItems = placeholderList.map((item, index) => (
-      <Swiper.Item key={index}>
-        <div>{item.simpleDetail}</div>
-      </Swiper.Item>
-    ));
-    // 滚动栏目
-    const swiperBlock = () => {
-      console.log("滚动栏目");
-
-      return (
-        onlyClick &&
-        isSwiper &&
-        placeholderList.length && (
-          <Swiper
-            style={{ "--height": "32px" }}
-            direction="vertical"
-            autoplay
-            loop
-          >
-            {verticalItems}
-          </Swiper>
-        )
-      );
-    };
-    // : React.FormEvent<HTMLInputElement>
-    const onInput = (e: React.FormEvent<HTMLInputElement>) => {
-      console.log(e);
-    };
+    }, [value]);
 
     // 按下键盘
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.keyCode === 13) {
         e.preventDefault();
-        search!(inputValue);
+        search!(inputValue.current);
         // this.$emit('search', this.value)
       }
     };
     // 清空输入框
     const clearInput = () => {
       // 清空输入框
-      input!("");
-      clear!();
+      input?.("");
+      clear?.();
     };
+
     // 点击返回
     const handleBack = () => {
       if (backEvent) {
@@ -130,59 +86,80 @@ const SearchBar: FC<SearchBarProps> = memo(
       }
       router.back();
     };
-    // 点击整体
-    const handleClick = () => {
-      click!();
-    };
+
+    // swiper滑动子项
+    const verticalItems = placeholderList.map((item, index) => (
+      <Swiper.Item key={index}>
+        <div>{item.simpleDetail}</div>
+      </Swiper.Item>
+    ));
 
     return (
       <div
         className={[style["searchbar"], fixed ? style["sticky"] : ""].join(" ")}
       >
         {/* 返回按钮 */}
-        {backIcon()}
+        {haveBack && (
+          <WbIcon
+            icon="icon-xiangzuojiantou"
+            customClass={style["searchbar__back"]}
+            size={18}
+            onClick={handleBack}
+          />
+        )}
         <div
           className={[style["searchbar__container"]].join(" ")}
-          onClick={handleClick}
+          onClick={() => click!()}
         >
           {/* 搜索图标 */}
           <WbIcon icon="icon-icon_search2"></WbIcon>
           {/* 提示 & input输入框 */}
-          {tipTextBlock()}
+          {onlyClick && !isSwiper && (
+            <span className={style["searchbar__tip"]}>{tipText}</span>
+          )}
           {/* 滚动框 */}
-          {swiperBlock()}
+          {onlyClick && isSwiper && placeholderList.length && (
+            <Swiper
+              style={{ "--height": "32px" }}
+              direction="vertical"
+              autoplay
+              loop
+            >
+              {verticalItems}
+            </Swiper>
+          )}
           {/* 输入框 */}
           {!onlyClick && (
             <div className={style["searchbar__form"]}>
               <input
-                value={inputValue}
+                value={inputValue.current}
                 autoFocus={focus}
                 placeholder={tipText}
                 disabled={onlyClick}
                 onKeyPress={handleKeyPress}
-                onInput={onInput}
                 type="search"
                 autoComplete="off"
                 className={style["searchbar__input"]}
                 onChange={(e) => {
-                  setInputValue(e.target.value);
+                  change?.(e.target.value);
                 }}
               />
             </div>
           )}
           {/* 清除图标 */}
-          {inputValue && showClear && (
+          {inputValue.current && showClear && (
             <div
-              onClick={clearInput}
+              onClick={() => clearInput()}
               className={style["searchbar__clear--icon"]}
             >
-              <WbIcon icon="icon-guanbi" />
+              <WbIcon icon="icon-guanbi" color="#999" />
             </div>
           )}
         </div>
+        {/* 搜索 */}
         {showSearch && (
           <div
-            onClick={() => search!(inputValue)}
+            onClick={() => search?.(inputValue.current)}
             className={style["searchbar__container--search"]}
           >
             搜索

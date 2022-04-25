@@ -1,20 +1,26 @@
-import { FC, memo, useEffect, useState } from "react";
+import {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
 import { Data } from "@/entity/service/home";
 
 import style from "./index.module.scss";
-import useDebounce from "@/hooks/useDebounce";
 import SearchBar from "@/components/common/SearchBar";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { getSearhKeyInfo } from "@/service/search";
 import SearchTag from "@/components/modules/Card/SearchTag";
 import { listBrandSeriesByBrand } from "@/service/brand";
 import { Brand } from "@/entity/service/brand.d";
-import { Toast } from "antd-mobile";
+import { NoticeBar, Toast } from "antd-mobile";
 
 type SearchProps = {
   data?: Data;
-  showResult: boolean;
   hotSearchList: string[];
 };
 
@@ -29,23 +35,26 @@ type Comprehensive = {
 const matchingQueryForShowResult = (query: { [key: string]: any }) =>
   !!(Object.keys(query).length && query.w);
 
-const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
-  const [showList, setShowList] = useState(showResult); // 是否展示结果
+const Search: FC<SearchProps> = memo(({ hotSearchList }) => {
+  const router = useRouter();
+  const showList = useRef(matchingQueryForShowResult(router.query)); // 是否展示结果
+
   const [seriesList, setSeriesList] = useState<Brand[]>([]); // 型号列表
   const [goodList, setGoodList] = useState([]); // 商品列表
   const [comprehensive, setComprehensive] = useState<Comprehensive>({});
-  const [searchNoVal, setSearchNoVal] = useState(false);
+  const [searchNoVal, setSearchNoVal] = useState(true);
   const [dropdownFilterActive, setDropdownFilterActive] = useState(false);
+  const [recommendText, setRecommendText] = useState("");
+  const [isShowDesc, setIsShowDesc] = useState(true);
   const [shopCode, setShopCode] = useState(""); // 店铺号
   const [historySearchList, setHistorySearchList] = useState<string[]>([]);
   const [placeholder, setPlaceholder] = useState("");
-  const router = useRouter();
-  console.log(router);
 
   useEffect(() => {
-    console.log("加载", showList);
+    showList.current = matchingQueryForShowResult(router.query);
+    console.log("加载", showList, comprehensive);
 
-    if (showList) {
+    if (showList.current) {
       setSeriesList([]);
       setGoodList([]);
       // 从url上获取参数
@@ -69,7 +78,6 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
         setSeriesList(list);
       };
       getBrand();
-      console.log("------------------");
 
       if (seriesCode) {
         setComprehensive((prev) => ({
@@ -91,13 +99,11 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
           priceMin: Number(price[0]),
           priceMax: Number(price[1]),
         }));
-        // dropdownFilterActive = true;
         setDropdownFilterActive(false);
         // priceSortShow();
       }
       if (w === "") {
         setSearchNoVal(false);
-        // searchNoVal = false;
       }
       // 获取分页结果
       // dropPagination = mergeDeep({}, dropPagination, {
@@ -112,29 +118,38 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
       //   sc: router.query.shopCode ? router.query.shopCode : "",
       // });
     } else {
+      getHistory();
       // 店铺搜索逻辑，暂时不写
+      setComprehensive({});
     }
   }, [router.query]);
 
+  useEffect(() => {
+    const searchVal = comprehensive.searchVal || "";
+    setRecommendText(
+      searchVal.length > 4 ? searchVal.substring(0, 4) + "..." : searchVal
+    );
+  }, [comprehensive.searchVal]);
+
   // 搜索
-  const handleSearch = () => {
+  const handleSearch = (searchValue: string) => {
     setSearchNoVal(true);
-    setHistory();
     // 如果没有关键字的情况
-    if (!comprehensive.searchVal) {
-      if (!setPlaceholder) {
+    if (!searchValue) {
+      if (!placeholder) {
         // 1. 如果没有placeholder提示
         Toast.show("请输入品牌/型号/编号");
         return;
       } else {
         // 2. 如果有placeholder
         setComprehensive((prev) => ({ ...prev, searchVal: placeholder }));
-        //comprehensive.searchVal = Search.placeholder;
       }
+    } else {
+      setHistory(searchValue);
     }
     const pathTemp: any = {
       path: "/search",
-      query: { w: comprehensive.searchVal },
+      query: { w: searchValue },
     };
     // 当有店铺号的时候表示在店铺里面搜索的
     if (
@@ -146,7 +161,7 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
     }
     // 跳去搜索
     router.push(pathTemp);
-    setShowList(true);
+    showList.current = true;
   };
 
   // 获取搜索历史列表
@@ -154,18 +169,19 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
     const historySearchList = localStorage.getItem("searchList")
       ? JSON.parse(localStorage.getItem("searchList") || "")
       : [];
-    setHistorySearchList(historySearchList);
+    setHistorySearchList((prev) => [...historySearchList]);
   };
 
+  // 点击搜索框
   const handleClickSearch = () => {
     // this.List.filter = [];
-    setShowList(false);
-    getHistory();
+    showList.current = false;
     setShopCode((router.query.shopCode as string) || "");
   };
 
   // 清空输入框
-  const handleClearSearch = () => {
+  const handleClearSearch = useCallback(() => {
+    setComprehensive({});
     // this.List.filter = []
     let pathTemp: any = {
       pathname: "/search",
@@ -179,21 +195,21 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
       setShopCode((router.query.shopCode as string) || "");
     }
     router.push(pathTemp);
-  };
+  }, []);
 
   // 删除历史搜索
-  const deleteTag = () => {
+  const deleteTag = useCallback(() => {
     localStorage.removeItem("searchList");
     setHistorySearchList([]);
-  };
+  }, []);
 
   // 设置历史记录
-  const setHistory = () => {
+  const setHistory = (searchValue: string) => {
+    if (!searchValue) return;
     const _cache = localStorage.getItem("searchList"); // 历史记录
-    const { searchVal } = comprehensive;
     // 放进历史记录
     const searchList = _cache ? JSON.parse(_cache) : [];
-    searchList.unshift(searchVal);
+    searchList.unshift(searchValue);
     localStorage.setItem(
       "searchList",
       JSON.stringify([...new Set(searchList)])
@@ -201,15 +217,15 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
   };
 
   // 点击历史或者热门标签搜索
-  const selectTag = (tag: string) => {
+  const selectTag = useCallback((tag: string) => {
     setComprehensive((prev) => ({
       ...prev,
       searchVal: tag,
     }));
-    setShowList(true);
-    setHistory();
+    showList.current = true;
+    setHistory(tag);
     const queryTemp = {
-      w: comprehensive.searchVal,
+      w: tag,
       shopCode: "",
     };
     if (shopCode) {
@@ -220,6 +236,11 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
       query: queryTemp,
     });
     setShopCode("");
+  }, []);
+
+  // 搜索框修改
+  const changeValue = (value?: string) => {
+    setComprehensive((prev) => ({ ...prev, searchVal: value }));
   };
 
   return (
@@ -232,14 +253,16 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
         backEventMethod={handleClickSearch}
         placeholder={placeholder}
         value={comprehensive.searchVal}
-        onlyClick={!!showResult}
-        focus={!showResult}
-        showSearch={!showResult}
+        onlyClick={!!showList.current}
+        focus={!showList.current}
+        showSearch={!showList.current}
         searchNoVal={searchNoVal}
-        back-event={showResult && shopCode}
+        back-event={showList.current && shopCode}
+        change={changeValue}
         haveBack
       ></SearchBar>
-      {!showResult ? (
+      {/* 历史搜索和热门搜索 */}
+      {!showList.current ? (
         <>
           <SearchTag
             tagList={hotSearchList}
@@ -252,12 +275,22 @@ const Search: FC<SearchProps> = memo(({ showResult, hotSearchList }) => {
               deleteTag={deleteTag}
               selectTag={selectTag}
               title="历史搜索"
-              show-delete
+              showDelete
             ></SearchTag>
           )}
         </>
       ) : (
-        <></>
+        <>
+          {isShowDesc && (
+            <NoticeBar
+              content={`为您推荐"闲置${recommendText}"表款,万表检测出证，假一赔三。`}
+              color="alert"
+              closeable
+              onClose={() => setIsShowDesc(false)}
+              style={{ "--font-size": "12px" }}
+            />
+          )}
+        </>
       )}
     </div>
   );
@@ -277,10 +310,7 @@ export const getServerSideProps: GetServerSideProps = async (
     },
     context
   );
-
-  const showResult = matchingQueryForShowResult(context.query);
-  console.log(hotSearchList, showResult);
-  return { props: { hotSearchList, showResult } };
+  return { props: { hotSearchList } };
 };
 
 export default Search;

@@ -55,6 +55,7 @@ const SearchTag: FC<SearchTagProps> = memo(
             onClick={() => deleteTag()}
             icon="icon-icon_delete"
             customClass={style["searchTag--delete"]}
+            size="16"
           ></WbIcon>
         )}
         {children}
