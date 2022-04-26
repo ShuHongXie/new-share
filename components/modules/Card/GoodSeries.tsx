@@ -24,7 +24,7 @@ const GoodSeries: FC<GoodSeriesProps> = ({ data, value, activeKey }) => {
         value === data[activeKey as string] ? style["is-active"] : "",
       ].join(" ")}
     >
-      <NormalImage
+      <WbImage
         originType={
           data.seriesCode === -1 || !data.imageUrl ? "static" : "aliyuncs"
         }
@@ -35,10 +35,10 @@ const GoodSeries: FC<GoodSeriesProps> = ({ data, value, activeKey }) => {
             ? data.imageUrl
             : "/mobile/wbshare/otherImgs2.png"
         }
-        parameter="m_fill,w_50,h_50"
-        width={24}
-        height={24}
-      ></NormalImage>
+        parameter="m_fill,w_100,h_100"
+        width={50}
+        height={50}
+      ></WbImage>
       <p className={style["series__text"]}>{data.seriesName}</p>
     </div>
   );

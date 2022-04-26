@@ -29,7 +29,7 @@ const WbIcon: FC<WbIconProp> = memo(
     size = 24,
     color = "#000",
     onClick,
-    bubbling = false,
+    bubbling,
   }) => {
     styles = {
       color,

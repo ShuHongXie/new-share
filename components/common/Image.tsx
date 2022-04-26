@@ -30,6 +30,7 @@ export type ImageParam = {
   originType?: string;
   quality?: number;
   height?: number;
+  bubbling?: boolean; // 是否阻止冒泡
   objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down";
   onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
 };
@@ -52,6 +53,7 @@ const WbImage = ({
   parameter = "",
   className = "",
   originType = "aliyuncs",
+  bubbling,
   onClick,
 }: ImageParam) => {
   console.log("image变化----------------------------------");
@@ -81,14 +83,17 @@ const WbImage = ({
   );
 
   const imageClick = (e: React.MouseEvent<HTMLImageElement>) => {
-    e.stopPropagation();
+    bubbling && e.stopPropagation();
     onClick?.(e);
   };
 
   return (
-    <div>
+    <div
+      className={style["wb-image"]}
+      style={{ width: `${width}px`, height: `${height}px` }}
+    >
       <Image
-        className={[style.wbImage, className].join(" ")}
+        className={[style["wb-image__content"], className].join(" ")}
         src={imgUrl}
         width={width}
         height={height}
