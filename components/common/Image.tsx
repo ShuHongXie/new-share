@@ -56,11 +56,11 @@ const WbImage = ({
   bubbling,
   onClick,
 }: ImageParam) => {
-  console.log("image变化----------------------------------");
+  // console.log("image变化----------------------------------");
 
   // 文件属性
   originType = ORIGINS[originType as keyof Origin];
-  console.log(ORIGINS, originType);
+  // console.log(ORIGINS, originType);
 
   // 文件类型
   type = type === "jpg" ? "/format,jpg" : "";
@@ -68,7 +68,7 @@ const WbImage = ({
   let origin = src.startsWith("http") ? "" : originType;
   // 防止url无法解析出错
   src = !src.startsWith("http") && !/http/i.test(src) ? src : "";
-  console.log(src, origin);
+  // console.log(src, origin);
 
   // 后缀
   parameter = parameter ? "/resize," + parameter : "";

@@ -1,4 +1,5 @@
 import NormalImage from "@/components/common/NormalImage";
+import useUpdate from "@/hooks/useUpdate";
 import { FC, memo, ReactNode, useEffect, useRef, useState } from "react";
 
 import style from "./TransitionBox.module.scss";
@@ -21,6 +22,7 @@ const TransitionBox: FC<TransitionBoxProps> = memo(({ data, children }) => {
   const [child, setChild] = useState(
     Array.isArray(children) ? children : [children]
   );
+  const update = useUpdate();
   const childRef = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
@@ -29,6 +31,8 @@ const TransitionBox: FC<TransitionBoxProps> = memo(({ data, children }) => {
 
   // 点击某一个子项，让子项滚动到居中位置
   const clickChild = (e: React.MouseEvent<HTMLElement>, index: number) => {
+    console.log("--");
+
     if (!child.length) return;
     console.log(childRef.current);
     const {
@@ -36,12 +40,23 @@ const TransitionBox: FC<TransitionBoxProps> = memo(({ data, children }) => {
       clientWidth,
       offsetLeft,
     } = childRef.current[index];
-    const verticalCenterDir = parent!.clientWidth / 2 + clientWidth / 2;
-    // 如果当前的到父级的距离 大于 父级到当前元素距离的一半，那么久需要进行动画滚动
-    if (offsetLeft > verticalCenterDir) {
-      window.requestAnimationFrame(() => {
-        // parent!.scrollLeft =
-      });
+    // 当前屏幕居中的距离
+    const verticalCenterDir = parent!.clientWidth / 2 - clientWidth / 2;
+    // 父级的滚动值
+    const originParentScrollLeft = parent!.scrollLeft;
+    // 如果当前的到父级的距离 大于 父级到当前元素距离的一半，那么就需要进行动画滚动
+    if (offsetLeft > verticalCenterDir + originParentScrollLeft) {
+      // 实际当前要滚动到的值
+      const scrollDistance = offsetLeft - verticalCenterDir;
+      let arriveLeft = originParentScrollLeft;
+      const step = (timestamp: number) => {
+        arriveLeft = arriveLeft + 4;
+        parent!.scrollLeft = arriveLeft;
+        if (arriveLeft < scrollDistance) {
+          requestAnimationFrame(step);
+        }
+      };
+      requestAnimationFrame(step);
     }
   };
 
