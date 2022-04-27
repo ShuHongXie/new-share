@@ -246,7 +246,10 @@ const Search: FC<SearchProps> = memo(({ hotSearchList }) => {
   };
 
   return (
-    <div className={style["search"]}>
+    <div
+      className={style["search"]}
+      style={{ backgroundColor: showList.current ? "#F1F1F1" : "#FFF" }}
+    >
       {/* 搜索框 */}
       <SearchBar
         search={handleSearch}

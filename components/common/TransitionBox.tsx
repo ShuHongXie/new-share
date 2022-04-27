@@ -45,19 +45,25 @@ const TransitionBox: FC<TransitionBoxProps> = memo(({ data, children }) => {
     // 父级的滚动值
     const originParentScrollLeft = parent!.scrollLeft;
     // 如果当前的到父级的距离 大于 父级到当前元素距离的一半，那么就需要进行动画滚动
-    if (offsetLeft > verticalCenterDir + originParentScrollLeft) {
-      // 实际当前要滚动到的值
-      const scrollDistance = offsetLeft - verticalCenterDir;
-      let arriveLeft = originParentScrollLeft;
-      const step = (timestamp: number) => {
-        arriveLeft = arriveLeft + 4;
-        parent!.scrollLeft = arriveLeft;
+    const scrollDuration =
+      offsetLeft > verticalCenterDir + originParentScrollLeft ? 4 : -4;
+    // 实际当前要滚动到的值
+    const scrollDistance = offsetLeft - verticalCenterDir;
+    let arriveLeft = originParentScrollLeft;
+    const step = (timestamp: number) => {
+      arriveLeft = arriveLeft + scrollDuration;
+      parent!.scrollLeft = arriveLeft;
+      if (offsetLeft > verticalCenterDir + originParentScrollLeft) {
         if (arriveLeft < scrollDistance) {
           requestAnimationFrame(step);
         }
-      };
-      requestAnimationFrame(step);
-    }
+      } else {
+        if (arriveLeft > scrollDistance) {
+          requestAnimationFrame(step);
+        }
+      }
+    };
+    requestAnimationFrame(step);
   };
 
   const getChild = (index: number, node: HTMLDivElement) => {

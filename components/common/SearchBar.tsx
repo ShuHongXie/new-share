@@ -109,6 +109,7 @@ const SearchBar: FC<SearchBarProps> = memo(
         )}
         <div
           className={[style["searchbar__container"]].join(" ")}
+          style={{ background: onlyClick ? "#FFF" : "#f2f2f2" }}
           onClick={() => click!()}
         >
           {/* 搜索图标 */}
