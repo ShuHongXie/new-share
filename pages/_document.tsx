@@ -21,6 +21,11 @@ class WbDocument extends Document {
             rel="stylesheet"
             href="//at.alicdn.com/t/font_1183097_xn1aa1cws5.css"
           ></link>
+          <script
+            async
+            type="text/javascript"
+            src="//at.alicdn.com/t/font_1213223_s4om73sqwyh.js"
+          ></script>
         </Head>
         <body>
           <Main />

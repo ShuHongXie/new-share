@@ -6,11 +6,11 @@
  * @FilePath: /new-share/components/common/Icon.tsx
  */
 import { FC, memo, ReactNode } from "react";
-import style from "./Icon.module.scss";
+import style from "./SvgIcon.module.scss";
 
-export type WbIconProp = {
+export type WbSvgIconProp = {
   icon?: string;
-  customClass?: string | string[];
+  customClass?: string;
   styles?: {
     [styleName: string]: string;
   };
@@ -21,22 +21,15 @@ export type WbIconProp = {
 };
 
 // 通用icon组件
-const WbIcon: FC<WbIconProp> = memo(
+const WbSvgIcon: FC<WbSvgIconProp> = memo(
   ({
     icon = "",
     customClass = "",
-    styles,
     size = 24,
     color = "#000",
     onClick,
     bubbling,
   }) => {
-    styles = {
-      color,
-      fontSize: `${size}px`,
-      ...styles,
-    };
-    customClass = Array.isArray(customClass) ? customClass : [customClass];
     // icon点击
     const iconClick = (e: React.MouseEvent<HTMLElement>) => {
       bubbling && e.stopPropagation();
@@ -44,15 +37,16 @@ const WbIcon: FC<WbIconProp> = memo(
     };
 
     return (
-      <i
-        className={[style["wb-icon"], "iconfont", icon, ...customClass].join(
-          " "
-        )}
-        style={styles}
-        onClick={iconClick}
-      ></i>
+      <span onClick={iconClick}>
+        <svg
+          className={[style["svg-icon"], customClass].join(" ")}
+          aria-hidden="true"
+        >
+          <use xlinkHref={`#${icon}`}></use>
+        </svg>
+      </span>
     );
   }
 );
 
-export default WbIcon;
+export default WbSvgIcon;

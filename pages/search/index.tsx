@@ -20,6 +20,7 @@ import { Brand } from "@/entity/service/brand.d";
 import { NoticeBar, Toast } from "antd-mobile";
 import TransitionBox from "@/components/common/TransitionBox";
 import GoodSeries from "@/components/modules/Card/GoodSeries";
+import DropDown from "@/components/modules/Navbar/Dropdown";
 
 type SearchProps = {
   data?: Data;
@@ -76,7 +77,7 @@ const Search: FC<SearchProps> = memo(({ hotSearchList }) => {
           keyword: w,
           seriesCode,
         });
-        console.log(list);
+        // console.log(list);
         setSeriesList(list);
       };
       getBrand();
@@ -307,6 +308,7 @@ const Search: FC<SearchProps> = memo(({ hotSearchList }) => {
               />
             ))}
           </TransitionBox>
+          <DropDown></DropDown>
         </>
       )}
     </div>

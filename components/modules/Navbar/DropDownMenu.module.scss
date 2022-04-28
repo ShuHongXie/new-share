@@ -1,0 +1,77 @@
+.dropdown-menu {
+  padding: 0;
+  text-align: center;
+  position: relative;
+  color: #333;
+  border-radius: 12px;
+  background-color: #f2f2f2;
+  order: 1px solid #f2f2f2;
+  // padding: 5px 0;
+  height: 28px;
+  margin-right: 8px;
+  // width: 75px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &--active {
+    position: relative;
+    color: rgba(255, 148, 25, 1) !important;
+    font-weight: bold;
+    border: 1px solid rgba(255, 148, 25, 1);
+    background-color: rgba(255, 148, 25, 0.2);
+  }
+  &__tip {
+    display: flex;
+    align-items: center;
+    margin-left: 2px;
+    .menu-tip--active {
+      color: rgba(255, 148, 25, 1) !important;
+    }
+    .menu-tip--rotate {
+      transform: rotate(180deg);
+    }
+  }
+
+  // .navbar-header__line {
+  //   position: absolute;
+  //   bottom: 0;
+  //   left: 50%;
+  //   transform: translateX(-50%);
+  //   height: 3px;
+  //   width: 17px;
+  //   background: none;
+  //   &.is-active {
+  //     background-color: #000000;
+  //   }
+  // }
+  /* 选项 - 三角形  */
+  &--trangle {
+    position: relative;
+    display: block;
+    &::before,
+    &:after {
+      content: "";
+      position: absolute;
+      right: 30%;
+      width: 0;
+      height: 0;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+    }
+    &:before {
+      bottom: 38%;
+      border-top: 4px solid #cccccc;
+    }
+    &:after {
+      top: 38%;
+      border-bottom: 4px solid #cccccc;
+    }
+    &.is-markUp:before {
+      border-top: 4px solid #999;
+    }
+    &.is-markDown:after {
+      border-bottom: 4px solid #999;
+    }
+  }
+}
