@@ -1,14 +1,13 @@
 import { FC, memo, useState } from "react";
-
+import dynamic from "next/dynamic";
 import style from "./DropDown.module.scss";
-import WbIcon from "@/components/common/Icon";
 import DropDownMenu from "./DropDownMenu";
 import {
   FilterData,
   FilterDataItem,
   ScreenItem,
 } from "@/entity/business/search";
-import DropDownPopup from "./DropDownPopup";
+const DropDownPopup = dynamic(() => import("./DropDownPopup"));
 import { When, Case } from "@/components/common/When";
 
 type DropDownProps = {
