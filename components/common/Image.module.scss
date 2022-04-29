@@ -1,3 +1,6 @@
 .wb-image {
   position: relative;
+  & > span {
+    position: static !important;
+  }
 }

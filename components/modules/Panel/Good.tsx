@@ -87,8 +87,8 @@ const Good: FC<HomeAdvertProps> = memo(
                 }}
               >
                 <WbImage
-                  width={350}
-                  height={430}
+                  width="100%"
+                  height={215}
                   src={data.imageUrl}
                   parameter={goodSize}
                 ></WbImage>

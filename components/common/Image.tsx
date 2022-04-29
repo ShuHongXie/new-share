@@ -22,7 +22,7 @@ export type Origin = {
 
 export type ImageParam = {
   src?: string;
-  width?: number;
+  width?: number | string;
   className?: string;
   watermark?: string;
   type?: string;
@@ -98,7 +98,7 @@ const WbImage = ({
         width={width}
         height={height}
         objectFit={objectFit}
-        layout={!width && !width ? "fill" : "responsive"}
+        layout={!width && !height ? "fill" : "responsive"}
         alt=""
         onError={() => setImgUrl(config.PIC.errorPage)}
         onClick={imageClick}

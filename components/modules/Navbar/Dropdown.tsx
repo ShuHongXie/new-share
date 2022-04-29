@@ -1,4 +1,4 @@
-import { FC, memo, useState } from "react";
+import { FC, memo, useCallback, useState } from "react";
 import dynamic from "next/dynamic";
 import style from "./DropDown.module.scss";
 import DropDownMenu from "./DropDownMenu";
@@ -9,6 +9,7 @@ import {
 } from "@/entity/business/search";
 const DropDownPopup = dynamic(() => import("./DropDownPopup"));
 import { When, Case } from "@/components/common/When";
+import Filter from "./Filter";
 
 type DropDownProps = {
   // tagList: string[];
@@ -218,6 +219,7 @@ const DropDown: FC<DropDownProps> = memo(({ children }) => {
         }
         value={screenShow}
       />
+      <Filter visible={true} />
     </div>
   );
 });
