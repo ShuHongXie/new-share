@@ -21,7 +21,7 @@ type DropDownProps = {
 };
 
 const DropDown: FC<DropDownProps> = memo(({ children }) => {
-  const [selectIndex, setSelectIndex] = useState(0);
+  const [selectIndex, setSelectIndex] = useState(-1);
   const [screenShow, setScreenShow] = useState(false);
   const [params, setParams] = useState<FilterDataItem[]>([
     {
@@ -170,9 +170,21 @@ const DropDown: FC<DropDownProps> = memo(({ children }) => {
   // tab点击
   const clickMenu = (index: number) => {
     const menuData = params.map((item, idx) =>
-      idx === index ? { ...item, active: true } : item
+      idx === index
+        ? {
+            ...item,
+            active: true,
+            mark: { ...item?.mark, down: true },
+          }
+        : { ...item, mark: { ...item?.mark, down: false } }
     );
-    setScreenShow(!!params[index].screenShowList);
+    setScreenShow(
+      index === selectIndex
+        ? !screenShow
+        : params[index].screenShowNeed
+        ? true
+        : false
+    );
     setParams(menuData);
     setSelectIndex(index);
   };
@@ -183,6 +195,9 @@ const DropDown: FC<DropDownProps> = memo(({ children }) => {
       setScreenShow(false);
       return;
     }
+    // const menuData = params?[selectIndex].screenShowList.map((item, idx) =>
+    //   idx === index ? { ...item, active: true } : item
+    // );
     console.log(item, index);
   };
 
@@ -198,7 +213,9 @@ const DropDown: FC<DropDownProps> = memo(({ children }) => {
       ))}
       <DropDownPopup
         screenClick={(screenItem) => screenClick(screenItem, selectIndex)}
-        data={params[selectIndex].screenShowList || []}
+        data={
+          selectIndex === -1 ? [] : params[selectIndex]?.screenShowList || []
+        }
         value={screenShow}
       />
     </div>

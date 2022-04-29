@@ -31,7 +31,9 @@ const DropDownMenu: FC<DropDownMenuProps> = memo(
                 size="14"
                 customClass={[
                   data.active ? style["menu-tip--active"] : "",
-                  data.active && screenShow ? style["menu-tip--rotate"] : "",
+                  data?.mark?.down && screenShow
+                    ? style["menu-tip--rotate"]
+                    : "",
                 ]}
               />
             </Case>

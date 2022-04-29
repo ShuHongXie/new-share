@@ -26,7 +26,7 @@ const DropDownPopup: FC<DropDownPropsProps> = memo(
   ({ children, data, value, screenClick }) => {
     return (
       <When>
-        <Case whenIf={value}>
+        <Case whenIf={value && data.length}>
           <section className={style["dropdown-popup"]}>
             <div
               onClick={() => screenClick()}
