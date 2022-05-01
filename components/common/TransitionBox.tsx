@@ -50,7 +50,7 @@ const TransitionBox: FC<TransitionBoxProps> = memo(({ data, children }) => {
     // 实际当前要滚动到的值
     const scrollDistance = offsetLeft - verticalCenterDir;
     let arriveLeft = originParentScrollLeft;
-    const step = (timestamp: number) => {
+    const step = () => {
       arriveLeft = arriveLeft + scrollDuration;
       parent!.scrollLeft = arriveLeft;
       if (offsetLeft > verticalCenterDir + originParentScrollLeft) {
