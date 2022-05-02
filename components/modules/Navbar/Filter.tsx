@@ -10,7 +10,7 @@ type FilterProps = {
   visible: boolean;
 };
 
-const Filter: FC<FilterProps> = memo(({ children, visible = true }) => {
+const Filter: FC<FilterProps> = memo(({ visible = true }) => {
   return (
     <Popup
       visible={visible}
