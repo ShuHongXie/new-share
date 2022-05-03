@@ -36,3 +36,11 @@ export interface FilterDataItem {
   };
   screenShowList?: Screen;
 }
+
+export interface Comprehensive {
+  searchVal?: string | undefined;
+  seriesCode?: number;
+  brandCode?: string | number | undefined;
+  priceMin?: number;
+  priceMax?: number;
+}

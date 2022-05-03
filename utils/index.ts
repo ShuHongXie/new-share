@@ -14,6 +14,21 @@ import { sortObjectArg } from "./index.d";
 export const isObject = (object: any) => typeof object === "object";
 
 /**
+ *  去掉对象里面的空值
+ *
+ * @param {*} object
+ */
+export const obtainObject = (data: any) => {
+  const newObject = data || {};
+  for (const key in newObject) {
+    if (!data[key] && data[key] !== 0) {
+      delete newObject[key];
+    }
+  }
+  return newObject;
+};
+
+/**
  * 获取当前ip地址的二级域名
  *
  * @param {{ host?: string }} [{ host }={}]

@@ -10,8 +10,11 @@ import {
 const DropDownPopup = dynamic(() => import("./DropDownPopup"));
 import { When, Case } from "@/components/common/When";
 import Filter from "./Filter";
+import { Popup } from "antd-mobile";
 
 type DropDownProps = {
+  filter: () => void;
+  filterData: any;
   // tagList: string[];
   // title?: string;
   // showDelete?: boolean;
@@ -21,9 +24,10 @@ type DropDownProps = {
   // deleteTag?: any;
 };
 
-const DropDown: FC<DropDownProps> = memo(({ children }) => {
+const DropDown: FC<DropDownProps> = memo(({ filterData, filter }) => {
   const [selectIndex, setSelectIndex] = useState(-1);
   const [screenShow, setScreenShow] = useState(false);
+  const [filterShow, setFilterShow] = useState(false);
   const [params, setParams] = useState<FilterDataItem[]>([
     {
       label: "综合",
@@ -169,7 +173,7 @@ const DropDown: FC<DropDownProps> = memo(({ children }) => {
   console.log(params);
 
   // tab点击
-  const clickMenu = (index: number) => {
+  const clickMenu = async (index: number) => {
     const menuData = params.map((item, idx) =>
       idx === index
         ? {
@@ -188,6 +192,10 @@ const DropDown: FC<DropDownProps> = memo(({ children }) => {
     );
     setParams(menuData);
     setSelectIndex(index);
+    if (index === 3) {
+      setFilterShow(true);
+      filter();
+    }
   };
 
   // tab子列表点击
@@ -219,7 +227,16 @@ const DropDown: FC<DropDownProps> = memo(({ children }) => {
         }
         value={screenShow}
       />
-      <Filter visible={true} />
+      <Popup
+        visible={filterShow}
+        onMaskClick={() => {
+          setFilterShow(false);
+        }}
+        position="right"
+        bodyStyle={{ width: "88vw" }}
+      >
+        <Filter data={filterData} />
+      </Popup>
     </div>
   );
 });

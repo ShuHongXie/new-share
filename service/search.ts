@@ -32,3 +32,13 @@ export const getSearhConditionInfo = (
     params,
     headers: { gateway: true },
   } as RequestConfig);
+
+// 这是获取筛选框万表二手表所有品牌的接口
+export const getListAllBrandsGroup = (
+  params: any,
+  ctx?: GetServerSidePropsContext
+): Promise<any> =>
+  axios.get("/rigPortal/wbshare/luxurySearch/listAllBrandsGroup", {
+    params,
+    headers: { gateway: true },
+  });

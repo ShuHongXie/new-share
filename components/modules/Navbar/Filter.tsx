@@ -7,22 +7,13 @@ import WbIcon from "@/components/common/Icon";
 import { Popup } from "antd-mobile";
 
 type FilterProps = {
-  visible: boolean;
+  data: any;
 };
 
-const Filter: FC<FilterProps> = memo(({ visible = true }) => {
-  return (
-    <Popup
-      visible={visible}
-      onMaskClick={() => {
-        // setVisible4(false);
-      }}
-      position="right"
-      bodyStyle={{ width: "88vw" }}
-    >
-      <div className={style.filter}></div>
-    </Popup>
-  );
+const Filter: FC<FilterProps> = memo(({ data }) => {
+  console.log(data);
+
+  return <div className={style.filter}></div>;
 });
 
 export default Filter;

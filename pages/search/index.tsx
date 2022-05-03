@@ -13,7 +13,7 @@ import { Data } from "@/entity/service/home";
 import style from "./index.module.scss";
 import SearchBar from "@/components/common/SearchBar";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import { getSearhKeyInfo } from "@/service/search";
+import { getSearhKeyInfo, getSearhConditionInfo } from "@/service/search";
 import SearchTag from "@/components/modules/Card/SearchTag";
 import { listBrandSeriesByBrand } from "@/service/brand";
 import { Brand } from "@/entity/service/brand.d";
@@ -21,18 +21,13 @@ import { NoticeBar, Toast } from "antd-mobile";
 import TransitionBox from "@/components/common/TransitionBox";
 import GoodSeries from "@/components/modules/Card/GoodSeries";
 import DropDown from "@/components/modules/Navbar/Dropdown";
+import { obtainObject } from "@/utils";
+import { Comprehensive } from "@/entity/business/search";
+import useGoodFilter from "@/hooks/useGoodFilter";
 
 type SearchProps = {
   data?: Data;
   hotSearchList: string[];
-};
-
-type Comprehensive = {
-  searchVal?: string | undefined;
-  seriesCode?: number;
-  brandCode?: string | number | undefined;
-  priceMin?: number;
-  priceMax?: number;
 };
 
 const matchingQueryForShowResult = (query: { [key: string]: any }) =>
@@ -52,6 +47,8 @@ const Search: FC<SearchProps> = memo(({ hotSearchList }) => {
   const [shopCode, setShopCode] = useState(""); // 店铺号
   const [historySearchList, setHistorySearchList] = useState<string[]>([]);
   const [placeholder, setPlaceholder] = useState("");
+
+  const { filterData, filter } = useGoodFilter({ comprehensive });
 
   useEffect(() => {
     showList.current = matchingQueryForShowResult(router.query);
@@ -308,7 +305,7 @@ const Search: FC<SearchProps> = memo(({ hotSearchList }) => {
               />
             ))}
           </TransitionBox>
-          <DropDown></DropDown>
+          <DropDown filterData={filterData} filter={filter}></DropDown>
         </>
       )}
     </div>
