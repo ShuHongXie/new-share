@@ -11,7 +11,7 @@ type SelectorProps = {
   value?: SelectorValue[]; // 选中项
   columns?: number; // 行展示数
   options: SelectorOption[];
-  optionsKeyConfig: string[]; // options参数配置 [keyName, uniqueKeyName, valueName]
+  optionsKeyConfig?: string[]; // options参数配置 [keyName, uniqueKeyName, valueName]
   multiple?: boolean; // 是否允许多选
   disabled?: boolean; // 	是否全局禁止选中	false
   onChange?: (
@@ -43,7 +43,7 @@ const Selector: FC<SelectorProps> = memo(
         {options.map((item, index) => (
           <div
             className={[
-              style["selector"],
+              style["selector--inner"],
               selectorValue.current?.includes(item[optionsKeyConfig[2]])
                 ? style["is-checked"]
                 : "",
@@ -51,7 +51,7 @@ const Selector: FC<SelectorProps> = memo(
             key={item[optionsKeyConfig[1]]}
             onClick={() => changeValue(index)}
           >
-            {item[optionsKeyConfig[0]]}
+            {item[optionsKeyConfig[0]] || item["cnName"]}
           </div>
         ))}
       </div>

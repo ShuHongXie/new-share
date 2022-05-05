@@ -5,7 +5,7 @@ import {
 } from "@/service/search";
 import { obtainObject } from "@/utils";
 import { useState } from "react";
-import { Comprehensive } from "@/entity/business/search";
+import { Comprehensive, FilterParams } from "@/entity/business/search";
 import { BrandList } from "@/entity/service/brand";
 import {
   BrandSeriesList,
@@ -198,7 +198,7 @@ export default function useGoodFilter({ comprehensive }: GoodFilterProps) {
       });
     }
     // 筛选条件
-    const filter = [
+    let filter: FilterParams[] = [
       {
         active: zyypListItem,
         value: "zyypList",
@@ -254,29 +254,29 @@ export default function useGoodFilter({ comprehensive }: GoodFilterProps) {
           modelType: 3,
         })) || [];
       setFilterBrand(brand || []);
-      // brandCodeFilter!.event = () => {
-      //   this.$refs.filter.showType(1)
-      // }
+      brandCodeFilter!.event = () => {
+        // this.$refs.filter.showType(1)
+      };
     }
-    // if (tagList.length > 0) {
-    //   filter.push(
-    //     // 标签类型
-    //     {
-    //       active: tagItem,
-    //       value: 'tagCodeSp',
-    //       label: tagList.length ? '标签类型' : '',
-    //       link: tagList.length > 6 ? '全部' : '',
-    //       event:
-    //         tagList.length > 6
-    //           ? () => {
-    //               this.List.select = tagListChildren
-    //               this.$refs.filter.showType(2)
-    //             }
-    //           : '',
-    //       children: tagLists
-    //     }
-    //   )
-    // }
+    if (tagList.length > 0) {
+      filter.push(
+        // 标签类型
+        {
+          active: tagItem,
+          value: "tagCodeSp",
+          label: tagList.length ? "标签类型" : "",
+          link: tagList.length > 6 ? "全部" : "",
+          event:
+            tagList.length > 6
+              ? () => {
+                  // this.List.select = tagListChildren;
+                  // this.$refs.filter.showType(2);
+                }
+              : "",
+          children: tagLists,
+        }
+      );
+    }
     // 折扣区间
     if (disList.length > 0) {
       filter.push({
@@ -296,7 +296,7 @@ export default function useGoodFilter({ comprehensive }: GoodFilterProps) {
     //   this.chooseItem(value, false)
     // }
     if (comprehensive.priceMin || comprehensive.priceMax) {
-      let MinIndex: any = "";
+      let MinIndex: number = -1;
       filter.map((item, index) => {
         if (item.value === "minPrice") {
           MinIndex = index;

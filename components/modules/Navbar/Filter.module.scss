@@ -1,0 +1,19 @@
+.filter {
+  padding: 10px 10px;
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  &-header {
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  &-content {
+    overflow: auto;
+    flex: 1;
+  }
+  &-footer {
+    height: 40px;
+  }
+}

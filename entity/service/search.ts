@@ -40,5 +40,6 @@ export interface List {
   code?: string;
   name?: string;
   class?: any;
+  value: any;
   desc?: string;
 }

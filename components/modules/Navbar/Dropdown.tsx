@@ -25,6 +25,8 @@ type DropDownProps = {
 };
 
 const DropDown: FC<DropDownProps> = memo(({ filterData, filter }) => {
+  console.log(filterData);
+
   const [selectIndex, setSelectIndex] = useState(-1);
   const [screenShow, setScreenShow] = useState(false);
   const [filterShow, setFilterShow] = useState(false);
@@ -235,7 +237,7 @@ const DropDown: FC<DropDownProps> = memo(({ filterData, filter }) => {
         position="right"
         bodyStyle={{ width: "88vw" }}
       >
-        <Filter data={filterData} />
+        <Filter data={filterData} onClose={() => setFilterShow(false)} />
       </Popup>
     </div>
   );

@@ -44,3 +44,12 @@ export interface Comprehensive {
   priceMin?: number;
   priceMax?: number;
 }
+
+export interface FilterParams {
+  active?: any;
+  value: string;
+  label?: string;
+  children?: IncludesList[];
+  link?: any;
+  event?: any;
+}

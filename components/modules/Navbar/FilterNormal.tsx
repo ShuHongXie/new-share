@@ -12,6 +12,8 @@ type FilterNormalProps = {
 };
 
 const FilterNormal: FC<FilterNormalProps> = memo(({ data }) => {
+  console.log(data, "---");
+
   const filterActive = (val: { label: string; cnName: string }) => {
     if (!val) {
       return "";
@@ -34,7 +36,7 @@ const FilterNormal: FC<FilterNormalProps> = memo(({ data }) => {
         </When>
       </div>
       <div className={style['dropdown__menu--radio"']}>
-        {/* <Selector data={data.children}></Selector> */}
+        <Selector options={data.children}></Selector>
       </div>
     </div>
   );
